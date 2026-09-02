@@ -1,0 +1,88 @@
+# Firms to scan.
+#
+# `enabled: true` means the endpoint has been verified against the live API.
+# `enabled: false` means the firm is a target but its endpoint details are not
+# resolved yet -- run `python -m scanner.discover` to fill them in, which is
+# far quicker than hunting through careers pages by hand.
+#
+# Workday fields:  host, tenant, site   (site id is the path segment in the
+#                  public careers URL, e.g. .../en-US/External_Career_Site_X)
+# Greenhouse/Lever: board               (the slug in the public board URL)
+
+defaults:
+  # Polite pause between requests to the same host, in seconds.
+  delay: 1.0
+  regions: [uk, china]
+  categories: [internship, placement]
+
+firms:
+
+  # ---------------------------------------------------------------- verified
+  - name: Barclays
+    tier: Bulge Bracket
+    platform: workday
+    enabled: true
+    host: barclays.wd3.myworkdayjobs.com
+    tenant: barclays
+    site: External_Career_Site_Barclays
+    # workerSubType facet id meaning "Intern" for this tenant. Verified live:
+    # cuts 808 open roles down to the 40 that are actually internships.
+    facets:
+      workerSubType: ["6139d325cdcc1001a72ceb63d5d60001"]
+
+  # ------------------------------------------------- targets: bulge bracket
+  - { name: Goldman Sachs,   tier: Bulge Bracket, platform: unknown, enabled: false, hint: "Higher/Avature - custom careers site" }
+  - { name: J.P. Morgan,     tier: Bulge Bracket, platform: unknown, enabled: false, hint: "Oracle/Taleo - jpmorganchase.com/careers" }
+  - { name: Morgan Stanley,  tier: Bulge Bracket, platform: workday, enabled: false, hint: "ms.wd5.myworkdayjobs.com - site id unknown" }
+  - { name: Citi,            tier: Bulge Bracket, platform: unknown, enabled: false, hint: "Eightfold - jobs.citi.com" }
+  - { name: UBS,             tier: Bulge Bracket, platform: workday, enabled: false, hint: "ubs.wd3.myworkdayjobs.com - tenant confirmed, site id unknown" }
+  - { name: Deutsche Bank,   tier: Bulge Bracket, platform: workday, enabled: false, hint: "db.wd3.myworkdayjobs.com" }
+  - { name: Bank of America, tier: Bulge Bracket, platform: unknown, enabled: false, hint: "custom - careers.bankofamerica.com" }
+  - { name: HSBC,            tier: Bulge Bracket, platform: unknown, enabled: false, hint: "Avature - strong China mainland presence" }
+
+  # ------------------------------------------------ targets: elite boutique
+  - { name: Lazard,               tier: Elite Boutique, platform: unknown, enabled: false }
+  - { name: Evercore,             tier: Elite Boutique, platform: unknown, enabled: false }
+  - { name: Centerview Partners,  tier: Elite Boutique, platform: unknown, enabled: false }
+  - { name: Rothschild & Co,      tier: Elite Boutique, platform: unknown, enabled: false }
+  - { name: Moelis & Co,          tier: Elite Boutique, platform: unknown, enabled: false }
+  - { name: PJT Partners,         tier: Elite Boutique, platform: unknown, enabled: false }
+  - { name: Perella Weinberg,     tier: Elite Boutique, platform: unknown, enabled: false }
+  - { name: Houlihan Lokey,       tier: Elite Boutique, platform: unknown, enabled: false }
+
+  # ------------------------------------------------- targets: middle market
+  - { name: Jefferies,          tier: Middle Market, platform: unknown, enabled: false }
+  - { name: Nomura,             tier: Middle Market, platform: workday, enabled: false }
+  - { name: BNP Paribas,        tier: Middle Market, platform: unknown, enabled: false }
+  - { name: Standard Chartered, tier: Middle Market, platform: workday, enabled: false, hint: "strong China mainland presence" }
+  - { name: Macquarie Group,    tier: Middle Market, platform: workday, enabled: false }
+  - { name: RBC Capital Markets, tier: Middle Market, platform: workday, enabled: false }
+  - { name: Mizuho,             tier: Middle Market, platform: unknown, enabled: false }
+  - { name: MUFG,               tier: Middle Market, platform: workday, enabled: false }
+
+  # ------------------------------------------------------ targets: buy-side
+  - { name: Blackstone,             tier: Buy-Side, platform: unknown, enabled: false }
+  - { name: BlackRock,              tier: Buy-Side, platform: workday, enabled: false }
+  - { name: Ares Management,        tier: Buy-Side, platform: workday, enabled: false }
+  - { name: Millennium Management,  tier: Buy-Side, platform: greenhouse, enabled: false }
+  - { name: Citadel,                tier: Buy-Side, platform: greenhouse, enabled: false }
+  - { name: Point72,                tier: Buy-Side, platform: greenhouse, enabled: false }
+
+  # ------------------------------------------------ targets: trading & quant
+  - { name: Jane Street,        tier: Trading & Quant, platform: unknown,    enabled: false, hint: "custom board" }
+  - { name: Optiver,            tier: Trading & Quant, platform: greenhouse, enabled: false }
+  - { name: IMC Trading,        tier: Trading & Quant, platform: greenhouse, enabled: false }
+  - { name: Hudson River Trading, tier: Trading & Quant, platform: greenhouse, enabled: false }
+  - { name: Susquehanna (SIG),  tier: Trading & Quant, platform: greenhouse, enabled: false }
+  - { name: DRW,                tier: Trading & Quant, platform: greenhouse, enabled: false }
+  - { name: Jump Trading,       tier: Trading & Quant, platform: greenhouse, enabled: false }
+
+  # --------------------------------------------------- targets: consulting
+  - { name: McKinsey & Company, tier: Consulting, platform: unknown, enabled: false, hint: "custom - mckinsey.com/careers" }
+  - { name: BCG,                tier: Consulting, platform: workday, enabled: false }
+  - { name: Bain & Company,     tier: Consulting, platform: unknown, enabled: false }
+  - { name: Oliver Wyman,       tier: Consulting, platform: workday, enabled: false, hint: "Marsh McLennan tenant" }
+  - { name: Deloitte,           tier: Big 4,      platform: unknown, enabled: false }
+  - { name: PwC,                tier: Big 4,      platform: unknown, enabled: false }
+  - { name: EY,                 tier: Big 4,      platform: unknown, enabled: false }
+  - { name: KPMG,               tier: Big 4,      platform: unknown, enabled: false }

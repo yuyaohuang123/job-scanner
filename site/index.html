@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pathway — Internship Application Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 21H22L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M12 9L6.5 19H17.5L12 9Z" fill="currentColor"/>
+        </svg>
+        <span>Pathway</span>
+      </div>
+      <nav class="top-links">
+        <a href="#" class="active">Trackers</a>
+        <a href="#">Resources</a>
+        <a href="#">About</a>
+      </nav>
+      <div class="topbar-actions">
+        <button id="theme-toggle" class="btn btn-ghost" title="Toggle theme" aria-label="Toggle theme">
+          <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <button class="btn btn-primary" id="export-btn">Export CSV</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="page-head">
+      <h1 id="tracker-title">UK Finance Tracker</h1>
+      <div class="stats" id="stats"></div>
+    </div>
+
+    <div class="tabs" id="tabs"></div>
+
+    <div class="toolbar">
+      <div class="field search-field">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input type="text" id="search" placeholder="Search company or programme…" />
+      </div>
+
+      <div class="field">
+        <label for="status-filter">My Status</label>
+        <select id="status-filter">
+          <option value="">No filter applied</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="open-filter">Open Status</label>
+        <select id="open-filter">
+          <option value="">No filter</option>
+          <option value="open">Open programmes only</option>
+          <option value="recent">Recently opened only</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="cl-filter">Cover Letter</label>
+        <select id="cl-filter">
+          <option value="">No filter</option>
+          <option value="yes">Cover letter required</option>
+          <option value="no">Cover letter not required</option>
+        </select>
+      </div>
+
+      <div class="field checkbox-field">
+        <label for="visa-filter">Sponsors Visas</label>
+        <input type="checkbox" id="visa-filter" />
+      </div>
+
+      <button class="btn btn-ghost" id="reset-filters">Reset filters</button>
+    </div>
+
+    <div class="table-wrap">
+      <table id="tracker-table">
+        <thead>
+          <tr>
+            <th class="col-status">My Status</th>
+            <th class="col-company sortable" data-sort="company">Company</th>
+            <th class="col-programme">Programme</th>
+            <th class="col-date sortable" data-sort="openDate">Opening</th>
+            <th class="col-date sortable" data-sort="closeDate">Closing</th>
+            <th class="col-stage">Latest Stage</th>
+            <th class="col-process">Process</th>
+            <th class="col-prep">Test Prep</th>
+            <th class="col-rolling">Rolling</th>
+            <th class="col-materials">Materials</th>
+            <th class="col-visa">Visa</th>
+            <th class="col-notes">Notes</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+      <p class="empty-state" id="empty-state" hidden>No programmes match your filters.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Demo data — company names are illustrative only; dates and stages are sample placeholders, not live listings. Your application statuses and notes are saved locally in this browser.</p>
+  </footer>
+
+  <script src="data.js?v=2"></script>
+  <script src="app.js?v=2"></script>
+</body>
+</html>

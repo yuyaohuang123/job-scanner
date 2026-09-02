@@ -1,0 +1,59 @@
+name: Daily job scan
+
+on:
+  schedule:
+    # 06:15 UTC daily. Deliberately not on the hour: scheduled runs on shared
+    # infrastructure get queued behind everyone else's :00 cron jobs.
+    - cron: "15 6 * * *"
+  workflow_dispatch:  # lets you trigger a run by hand from the Actions tab
+
+# Needed so the workflow can commit the refreshed listings back to the repo.
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-scan
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run scan
+        run: python -m scanner.scan
+
+      - name: Send digest
+        # Runs even if the scan partially failed, so you hear about breakage
+        # instead of it failing silently every morning.
+        if: always()
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          DIGEST_TO: ${{ secrets.DIGEST_TO }}
+        run: python -m scanner.digest
+
+      - name: Commit updated listings
+        run: |
+          git config user.name  "job-scanner"
+          git config user.email "actions@github.com"
+          git add data/listings.json site/data.js
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Daily scan: $(date -u +'%Y-%m-%d')"
+            git push
+          fi
