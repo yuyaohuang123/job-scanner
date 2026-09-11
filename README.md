@@ -23,12 +23,33 @@ three lines of config, not a new scraper.
 
 ## Status
 
-**Verified working:** Barclays (Workday). The live API returns 808 open roles,
-40 tagged `Intern`, filterable server-side.
+**63 firms verified and enabled** across Workday, Greenhouse and Lever. At
+setup the scan returned 178 internship and placement listings: 93 UK,
+30 Hong Kong, 16 China mainland, 2 Australia. Regions covered: UK, China
+mainland, Hong Kong, Australia.
 
-**Not yet configured:** the other ~40 firms in `scanner/config/firms.yml` are
-listed as targets with `enabled: false`. Each needs its endpoint resolved once
-— see below.
+**Not yet configured:** the remaining targets in `scanner/config/firms.yml`
+sit at `enabled: false` with a `note` on why. The notable gaps are the firms
+that run their own careers platforms rather than a standard ATS -- Goldman
+Sachs, J.P. Morgan, Citi, HSBC, UBS, McKinsey, BCG, Bain, the Big 4 -- each of
+which needs a dedicated adapter.
+
+## Discovery tools
+
+```bash
+python tools/probe_boards.py hits.json     # guess Greenhouse/Lever slugs in bulk
+python tools/verify_workday.py hits.json   # verify Workday tenants, emit config
+python -m scanner.discover <careers URL>   # one firm from its careers URL
+```
+
+`verify_workday.py` also discovers each tenant's facets. That matters: a
+1,900-role board like Wells Fargo can't be read in full every day, but the
+30 roles it has in our four countries can be pulled with one server-side
+filter. Small boards are read in full with no filters at all -- on a 33-role
+campus site, filters only add ways to miss things.
+
+Always check the board *owner* when guessing slugs. `bcg` on Greenhouse is
+Bohen Consulting Group; `apollo` is Apollo Education; `sc` is Sands Capital.
 
 ## Adding a firm
 
@@ -82,9 +103,10 @@ and you read results on the site.
 matches "**Intern**ational Banking" and "**Intern**al Audit". `filters.py` uses
 `\b`-anchored patterns, which is why those don't leak in.
 
-**Hong Kong is excluded.** The brief was China *mainland*, so HK, Macau and
-Taiwan don't match. A lot of Western-bank APAC finance sits in Hong Kong, so if
-you want it, flip `INCLUDE_HONG_KONG = True` in `filters.py`.
+**Regions are a data table.** `REGIONS` in `filters.py` is an ordered list of
+`(name, terms)`; Hong Kong is checked before China so "Hong Kong, China" lands
+in the right bucket. Perth is special-cased -- it's in Scotland as well as
+Western Australia. Macau and Taiwan are deliberately unmatched.
 
 **"2 Locations".** Workday collapses multi-office postings into a useless
 summary. The adapter detects that and fetches the detail record for just those

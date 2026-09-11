@@ -7,11 +7,6 @@ mainland?". Keeping it separate means one fix improves every firm at once.
 
 import re
 
-# Hong Kong, Macau and Taiwan are deliberately NOT treated as China mainland,
-# per the brief. A lot of Western-bank APAC finance roles sit in Hong Kong
-# though, so flip this to True if you want them swept in as well.
-INCLUDE_HONG_KONG = False
-
 
 def _words(*terms):
     """Build a regex that matches any term on word boundaries.
@@ -118,34 +113,51 @@ def is_excluded(title):
 
 # --- Region classification ----------------------------------------------
 
-UK_TERMS = [
-    "united kingdom", "england", "scotland", "wales", "northern ireland",
-    "london", "canary wharf", "churchill place", "bank street", "moorgate",
-    "liverpool street", "broadgate", "bishopsgate", "city of london",
-    "birmingham", "glasgow", "edinburgh", "manchester", "leeds", "bristol",
-    "belfast", "cardiff", "sheffield", "nottingham", "reading", "cambridge",
-    "oxford", "knutsford", "radbroke", "northampton", "bournemouth",
-    "chester", "swindon", "milton keynes", "gb-", "(uk)", " uk",
+# Ordered: the first region whose terms appear wins. Hong Kong is checked
+# before China so "Hong Kong, China" lands in the right bucket.
+REGIONS = [
+    ("hong-kong", [
+        "hong kong", "hongkong", "kowloon", "causeway bay", "admiralty",
+        "central, hk", " hk",
+    ]),
+    ("china", [
+        "china", "mainland china", "shanghai", "beijing", "shenzhen",
+        "guangzhou", "chengdu", "hangzhou", "tianjin", "nanjing", "suzhou",
+        "wuhan", "xi'an", "dalian", "qingdao", "chongqing",
+    ]),
+    ("australia", [
+        "australia", "sydney", "melbourne", "brisbane", "perth", "canberra",
+        "adelaide", "gold coast", "barangaroo", "collins street",
+    ]),
+    ("uk", [
+        "united kingdom", "england", "scotland", "wales", "northern ireland",
+        "london", "canary wharf", "churchill place", "bank street", "moorgate",
+        "liverpool street", "broadgate", "bishopsgate", "city of london",
+        "birmingham", "glasgow", "edinburgh", "manchester", "leeds", "bristol",
+        "belfast", "cardiff", "sheffield", "nottingham", "reading", "cambridge",
+        "oxford", "knutsford", "radbroke", "northampton", "bournemouth",
+        "chester", "swindon", "milton keynes", "gb-", "(uk)", " uk",
+    ]),
 ]
 
-CHINA_TERMS = [
-    "china", "mainland china", "shanghai", "beijing", "shenzhen", "guangzhou",
-    "chengdu", "hangzhou", "tianjin", "nanjing", "suzhou", "wuhan", "xi'an",
-    "dalian", "qingdao", "chongqing",
-]
-
-HK_TERMS = ["hong kong", "hongkong", "kowloon", "causeway bay", "admiralty"]
-
-# Places that would otherwise trip the UK or China matchers.
+# Places that share a name with somewhere we care about. Each is stripped
+# from the text before matching so the remainder is judged on its own.
 FALSE_FRIENDS = [
-    "new london",       # Connecticut
-    "london, ontario",  # Canada
+    "new london",            # Connecticut
+    "london, ontario",       # Canada
+    "london, on",
     "london, ky",
     "birmingham, al",
     "birmingham, alabama",
     "manchester, nh",
     "cambridge, ma",
     "cambridge, massachusetts",
+    "melbourne, fl",         # Florida
+    "melbourne, florida",
+    "sydney, ns",            # Nova Scotia
+    "sydney, nova scotia",
+    "perth, scotland",       # the original Perth -- routed to UK below
+    "perth, uk",
     "china town",
     "chinatown",
     "taiwan", "taipei", "macau", "macao",
@@ -153,24 +165,24 @@ FALSE_FRIENDS = [
 
 
 def classify_region(location_text, country=None):
-    """Return 'uk', 'china' or None from free-text location."""
+    """Return a region name from REGIONS, or None."""
     haystack = " ".join(filter(None, [location_text, country])).lower()
     if not haystack.strip():
         return None
 
+    # Perth is in Scotland as well as Western Australia. For these firms the
+    # Australian one is overwhelmingly more likely, unless the text says
+    # otherwise -- so decide that before the false friends are stripped.
+    if "perth" in haystack and any(t in haystack for t in ("scotland", "united kingdom", " uk")):
+        return "uk"
+
     for bad in FALSE_FRIENDS:
         if bad in haystack:
-            # Strip the false friend, then judge what's left.
             haystack = haystack.replace(bad, " ")
 
-    if any(term in haystack for term in HK_TERMS):
-        return "china" if INCLUDE_HONG_KONG else None
-
-    if any(term in haystack for term in CHINA_TERMS):
-        return "china"
-
-    if any(term in haystack for term in UK_TERMS):
-        return "uk"
+    for name, terms in REGIONS:
+        if any(term in haystack for term in terms):
+            return name
 
     return None
 

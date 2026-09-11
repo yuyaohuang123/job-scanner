@@ -12,6 +12,7 @@ the filters that tenant supports. Where a tenant tags postings with a
 900-role board down to the ~40 that matter before we ever look at a title.
 """
 
+import sys
 import time
 
 import requests
@@ -49,8 +50,39 @@ class WorkdayAdapter:
         return f"https://{self.firm['host']}/en-US/{self.firm['site']}{external_path}"
 
     def fetch(self, max_pages=25):
-        """Yield normalised posting dicts for this firm."""
-        applied_facets = self.firm.get("facets") or {}
+        """Yield normalised posting dicts for this firm, de-duplicated.
+
+        Config may give `passes`: a list of appliedFacets dicts, each run as
+        its own query with results unioned. Two passes are typical -- one on
+        the tenant's intern facet (precise but sometimes incomplete) and one
+        on its country facet (complete for our regions, title-filtered
+        later). A legacy single `facets` dict is treated as one pass, and no
+        config at all means one unfiltered pass, capped by max_pages.
+        """
+        passes = self.firm.get("passes")
+        if not passes:
+            passes = [self.firm.get("facets") or {}]
+
+        seen_ids = set()
+        for applied in passes:
+            try:
+                for posting in self._fetch_pass(applied, max_pages):
+                    key = posting["source_id"]
+                    if key in seen_ids:
+                        continue
+                    seen_ids.add(key)
+                    yield posting
+            except requests.HTTPError as exc:
+                # A stale facet id (tenants do reshuffle them) makes Workday
+                # answer 400 for that pass. Losing one pass is a degraded scan;
+                # losing the whole firm to it would be silent data loss.
+                if len(passes) > 1 and exc.response is not None and exc.response.status_code == 400:
+                    print(f"   warning: {self.firm['name']} pass {applied} rejected (400); skipped",
+                          file=sys.stderr)
+                    continue
+                raise
+
+    def _fetch_pass(self, applied_facets, max_pages):
         offset = 0
         seen = 0
         total = None
@@ -141,14 +173,20 @@ class WorkdayAdapter:
         return posting
 
 
-def discover_intern_facet(firm, session=None):
-    """Return the workerSubType facet id that means "Intern" for this tenant.
+# Facet value descriptors that mean "this is an early-careers posting".
+# Substring match, lower-cased. "internal" is guarded against separately.
+INTERN_FACET_TERMS = ("intern", "student", "campus", "early career", "early-career",
+                      "graduate program", "graduate programme", "placement")
 
-    Facet ids are per-tenant hashes, so they can't be hardcoded across firms --
-    but they're stable for a given tenant, so we look one up once and cache it
-    in the firm config.
-    """
-    session = session or requests.Session()
+# Country descriptors we want, mapped from how tenants tend to spell them.
+COUNTRY_FACET_TERMS = ("united kingdom", "hong kong", "australia", "china")
+
+# Facet parameters that hold a country-level location, in preference order.
+COUNTRY_FACET_PARAMS = ("Location_Country", "locationCountry", "Country",
+                        "country", "locationMainGroup", "locations")
+
+
+def _fetch_facets(firm, session):
     endpoint = (
         f"https://{firm['host']}/wday/cxs/{firm['tenant']}/{firm['site']}/jobs"
     )
@@ -159,11 +197,97 @@ def discover_intern_facet(firm, session=None):
         timeout=REQUEST_TIMEOUT,
     )
     response.raise_for_status()
+    body = response.json()
+    return body.get("facets") or [], body.get("total", 0)
 
-    for facet in response.json().get("facets") or []:
-        if facet.get("facetParameter") != "workerSubType":
-            continue
-        for value in facet.get("values") or []:
-            if (value.get("descriptor") or "").strip().lower() in ("intern", "student"):
-                return value.get("id"), value.get("count")
+
+def _is_intern_descriptor(text):
+    text = (text or "").strip().lower()
+    if "internal" in text or "international" in text:
+        # "Internal Audit" is a job family; guard it explicitly since we're
+        # substring-matching "intern" here.
+        text = text.replace("internal", "").replace("international", "")
+    return any(term in text for term in INTERN_FACET_TERMS)
+
+
+def discover_facets(firm, session=None):
+    """Work out which server-side filters this tenant supports.
+
+    Returns a dict with up to two entries, each `(facetParameter, [ids], count)`:
+
+        intern   -- values tagging early-careers postings. Applying this on
+                    Barclays turns 808 roles into 40 before a title is read.
+        country  -- values for the countries we care about. Big tenants
+                    (Wells Fargo: 1,873 roles) can't be paginated daily, but
+                    the 30 of them in the UK can.
+
+    Facet ids are per-tenant hashes, so they can't be hardcoded across firms,
+    but they're stable for a tenant -- look them up once, keep them in config.
+    """
+    session = session or requests.Session()
+    facets, total = _fetch_facets(firm, session)
+    found = {"total": total}
+
+    # Intern-type facet: prefer workerSubType (employment type) over
+    # jobFamilyGroup, which is a coarser taxonomy that sometimes mislabels.
+    for preferred in ("workerSubType", "jobFamilyGroup", "timeType"):
+        for facet in facets:
+            if facet.get("facetParameter") != preferred:
+                continue
+            hits = [
+                (v["id"], v.get("count", 0))
+                for v in facet.get("values") or []
+                if _is_intern_descriptor(v.get("descriptor"))
+            ]
+            if hits:
+                found["intern"] = (preferred, [h[0] for h in hits], sum(h[1] for h in hits))
+                break
+        if "intern" in found:
+            break
+
+    # Country facet. Some tenants nest location facets one level deep
+    # (locationMainGroup -> a child facet "locations" -> office values); the
+    # ids in that case belong to the CHILD's facetParameter, not the parent's,
+    # and applying them under the parent's name is a 400.
+    by_param = {}
+    for facet in facets:
+        for param, value in _walk_facet_values(facet):
+            if any(t in (value.get("descriptor") or "").lower() for t in COUNTRY_FACET_TERMS):
+                by_param.setdefault(param, []).append((value["id"], value.get("count", 0)))
+    if by_param:
+        # Prefer a true country-level parameter; otherwise whichever matched most.
+        ordered = sorted(
+            by_param.items(),
+            key=lambda kv: (
+                kv[0] not in COUNTRY_FACET_PARAMS,
+                COUNTRY_FACET_PARAMS.index(kv[0]) if kv[0] in COUNTRY_FACET_PARAMS else 99,
+                -len(kv[1]),
+            ),
+        )
+        param, hits = ordered[0]
+        found["country"] = (param, [h[0] for h in hits], sum(h[1] for h in hits))
+
+    return found
+
+
+def _walk_facet_values(facet, param=None):
+    """Yield (facetParameter, value) for every leaf value under a facet.
+
+    A value carrying its own `facetParameter` and `values` is a nested facet;
+    its children are attributed to it, not to the top-level parameter.
+    """
+    param = facet.get("facetParameter") or param
+    for value in facet.get("values") or []:
+        if value.get("values"):
+            yield from _walk_facet_values(value, param)
+        elif value.get("id"):
+            yield param, value
+
+
+def discover_intern_facet(firm, session=None):
+    """Back-compat shim: return (first intern facet id, count) or (None, 0)."""
+    found = discover_facets(firm, session=session)
+    if "intern" in found:
+        _, ids, count = found["intern"]
+        return ids[0], count
     return None, 0

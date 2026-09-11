@@ -1,23 +1,29 @@
 # Firms to scan.
 #
-# `enabled: true` means the endpoint has been verified against the live API.
-# `enabled: false` means the firm is a target but its endpoint details are not
-# resolved yet -- run `python -m scanner.discover` to fill them in, which is
-# far quicker than hunting through careers pages by hand.
+# `enabled: true`  -- endpoint verified against the live API (see tools/).
+# `enabled: false` -- a target whose endpoint isn't resolved yet; `note`
+#                     says what's known. Run tools/verify_workday.py or
+#                     tools/probe_boards.py to resolve, or scanner.discover
+#                     with a careers URL.
 #
-# Workday fields:  host, tenant, site   (site id is the path segment in the
-#                  public careers URL, e.g. .../en-US/External_Career_Site_X)
-# Greenhouse/Lever: board               (the slug in the public board URL)
+# Workday:  host, tenant, site. Small boards are read in full. Big boards
+#           carry `passes`: server-side facet filters (intern-type, and our
+#           countries), each run as a query and the results unioned. Facet
+#           ids are per-tenant hashes -- stable, but if a firm reshuffles
+#           them the pass gets a 400 and is skipped with a warning; re-run
+#           tools/verify_workday.py to refresh.
+# Greenhouse / Lever: board (the slug in the public board URL). Owner name
+#           was checked for every one -- "bcg" on Greenhouse is Bohen
+#           Consulting Group, not Boston.
 
 defaults:
-  # Polite pause between requests to the same host, in seconds.
   delay: 1.0
-  regions: [uk, china]
+  regions: [uk, china, hong-kong, australia]
   categories: [internship, placement]
 
 firms:
 
-  # ---------------------------------------------------------------- verified
+  # ================================================================ Bulge Bracket
   - name: Barclays
     tier: Bulge Bracket
     platform: workday
@@ -25,64 +31,314 @@ firms:
     host: barclays.wd3.myworkdayjobs.com
     tenant: barclays
     site: External_Career_Site_Barclays
-    # workerSubType facet id meaning "Intern" for this tenant. Verified live:
-    # cuts 808 open roles down to the 40 that are actually internships.
-    facets:
-      workerSubType: ["6139d325cdcc1001a72ceb63d5d60001"]
+    passes:
+      - workerSubType: ["6139d325cdcc1001a72ceb63d5d60001"]   # Intern
 
-  # ------------------------------------------------- targets: bulge bracket
-  - { name: Goldman Sachs,   tier: Bulge Bracket, platform: unknown, enabled: false, hint: "Higher/Avature - custom careers site" }
-  - { name: J.P. Morgan,     tier: Bulge Bracket, platform: unknown, enabled: false, hint: "Oracle/Taleo - jpmorganchase.com/careers" }
-  - { name: Morgan Stanley,  tier: Bulge Bracket, platform: workday, enabled: false, hint: "ms.wd5.myworkdayjobs.com - site id unknown" }
-  - { name: Citi,            tier: Bulge Bracket, platform: unknown, enabled: false, hint: "Eightfold - jobs.citi.com" }
-  - { name: UBS,             tier: Bulge Bracket, platform: workday, enabled: false, hint: "ubs.wd3.myworkdayjobs.com - tenant confirmed, site id unknown" }
-  - { name: Deutsche Bank,   tier: Bulge Bracket, platform: workday, enabled: false, hint: "db.wd3.myworkdayjobs.com" }
-  - { name: Bank of America, tier: Bulge Bracket, platform: unknown, enabled: false, hint: "custom - careers.bankofamerica.com" }
-  - { name: HSBC,            tier: Bulge Bracket, platform: unknown, enabled: false, hint: "Avature - strong China mainland presence" }
+  - name: Deutsche Bank
+    tier: Bulge Bracket
+    platform: workday
+    enabled: true
+    host: db.wd3.myworkdayjobs.com
+    tenant: db
+    site: DBWebsite
+    passes:
+      - workerSubType: ["645e861bc53a01f8c083feaefb3a1c09"]   # "Q (Interns / Practical Work Exp.)"
+      - Country: ["29247e57dbaf46fb855b224e03170bc7", "d4afdeb461d446e4babd204bd102dba8", "6cb77610a8a543aea2d6bc10457e35d4", "d903bb3fedad45039383f6de334ad4db"]
 
-  # ------------------------------------------------ targets: elite boutique
-  - { name: Lazard,               tier: Elite Boutique, platform: unknown, enabled: false }
+  - name: Wells Fargo
+    tier: Bulge Bracket
+    platform: workday
+    enabled: true
+    host: wf.wd1.myworkdayjobs.com
+    tenant: wf
+    site: WellsFargoJobs
+    passes:
+      - workerSubType: ["2d264dd4beb00100f05a7d60652a0000"]
+      - locationCountry: ["6cb77610a8a543aea2d6bc10457e35d4", "d4afdeb461d446e4babd204bd102dba8", "29247e57dbaf46fb855b224e03170bc7"]
+
+  - name: Morgan Stanley
+    tier: Bulge Bracket
+    platform: workday
+    enabled: true
+    host: ms.wd5.myworkdayjobs.com
+    tenant: ms
+    site: External
+    # This board holds experienced hires plus a handful of stray US interns.
+    # The Summer Analyst programme is recruited through a separate campus
+    # portal that isn't on Workday -- see the unresolved list below.
+    passes:
+      - workerSubType: ["5a72a211d621102a11412ae10c95037b"]
+      - Location_Country: ["d4afdeb461d446e4babd204bd102dba8", "29247e57dbaf46fb855b224e03170bc7", "d903bb3fedad45039383f6de334ad4db"]
+
+  - { name: Goldman Sachs,   tier: Bulge Bracket, platform: custom, enabled: false, note: "Own careers platform (Higher). Needs a dedicated adapter." }
+  - { name: J.P. Morgan,     tier: Bulge Bracket, platform: custom, enabled: false, note: "Oracle Cloud HCM. Needs a dedicated adapter." }
+  - { name: Citi,            tier: Bulge Bracket, platform: custom, enabled: false, note: "Eightfold-backed jobs.citi.com. Needs a dedicated adapter." }
+  - { name: Bank of America, tier: Bulge Bracket, platform: custom, enabled: false, note: "Own careers site. Needs a dedicated adapter." }
+  - { name: UBS,             tier: Bulge Bracket, platform: custom, enabled: false, note: "Workday behind bot-protected jobs.ubs.com; tenant ubs.wd3 confirmed but site id not public." }
+  - { name: HSBC,            tier: Bulge Bracket, platform: custom, enabled: false, note: "Avature. Strong China/HK presence -- worth an adapter." }
+  - { name: Morgan Stanley (campus), tier: Bulge Bracket, platform: custom, enabled: false, note: "Summer Analyst programme lives on morganstanley.com/careers, not Workday." }
+
+  # ============================================================== Elite Boutique
+  - name: PJT Partners
+    tier: Elite Boutique
+    platform: workday
+    enabled: true
+    host: pjtpartners.wd1.myworkdayjobs.com
+    tenant: pjtpartners
+    site: Students
+
+  - name: Moelis & Co
+    tier: Elite Boutique
+    platform: workday
+    enabled: true
+    host: moelis.wd1.myworkdayjobs.com
+    tenant: moelis
+    site: University-Hires
+    # Nearly empty at time of setup (between cycles); has carried HK/London
+    # Summer Analyst postings in previous years. Cheap to keep watching.
+
+  - name: Greenhill
+    tier: Elite Boutique
+    platform: workday
+    enabled: true
+    host: mizuho.wd1.myworkdayjobs.com
+    tenant: mizuho
+    site: mizuhoamericas
+
+  - { name: Raine Group,  tier: Elite Boutique, platform: lever,      enabled: true, board: raine }
+  - { name: LionTree,     tier: Elite Boutique, platform: greenhouse, enabled: true, board: liontree }
+
   - { name: Evercore,             tier: Elite Boutique, platform: unknown, enabled: false }
   - { name: Centerview Partners,  tier: Elite Boutique, platform: unknown, enabled: false }
+  - { name: Lazard,               tier: Elite Boutique, platform: unknown, enabled: false }
   - { name: Rothschild & Co,      tier: Elite Boutique, platform: unknown, enabled: false }
-  - { name: Moelis & Co,          tier: Elite Boutique, platform: unknown, enabled: false }
-  - { name: PJT Partners,         tier: Elite Boutique, platform: unknown, enabled: false }
   - { name: Perella Weinberg,     tier: Elite Boutique, platform: unknown, enabled: false }
-  - { name: Houlihan Lokey,       tier: Elite Boutique, platform: unknown, enabled: false }
+  - { name: Qatalyst Partners,    tier: Elite Boutique, platform: unknown, enabled: false }
 
-  # ------------------------------------------------- targets: middle market
+  # =============================================================== Middle Market
+  - name: Guggenheim Partners
+    tier: Middle Market
+    platform: workday
+    enabled: true
+    host: guggenheim.wd1.myworkdayjobs.com
+    tenant: guggenheim
+    site: Guggenheim_Careers_Campus
+
+  - name: Houlihan Lokey
+    tier: Middle Market
+    platform: workday
+    enabled: true
+    host: hl.wd1.myworkdayjobs.com
+    tenant: hl
+    site: Campus
+
+  - name: Harris Williams
+    tier: Middle Market
+    platform: workday
+    enabled: true
+    host: pnc.wd5.myworkdayjobs.com
+    tenant: pnc
+    site: HarrisWilliams
+
+  - name: Raymond James
+    tier: Middle Market
+    platform: workday
+    enabled: true
+    host: raymondjames.wd1.myworkdayjobs.com
+    tenant: raymondjames
+    site: RaymondJamesEarlyCareers
+
+  - name: RBC Capital Markets
+    tier: Middle Market
+    platform: workday
+    enabled: true
+    host: rbc.wd3.myworkdayjobs.com
+    tenant: rbc
+    site: RBCEARLYTALENT1
+
+  - name: TD Securities
+    tier: Middle Market
+    platform: workday
+    enabled: true
+    host: td.wd3.myworkdayjobs.com
+    tenant: td
+    site: TD_Bank_Careers
+    passes:
+      - locationCountry: ["d4afdeb461d446e4babd204bd102dba8", "29247e57dbaf46fb855b224e03170bc7"]
+
+  - { name: William Blair,          tier: Middle Market, platform: greenhouse, enabled: true, board: williamblair }
+  - { name: Lincoln International,  tier: Middle Market, platform: greenhouse, enabled: true, board: lincolninternational }
+
   - { name: Jefferies,          tier: Middle Market, platform: unknown, enabled: false }
-  - { name: Nomura,             tier: Middle Market, platform: workday, enabled: false }
+  - { name: Nomura,             tier: Middle Market, platform: unknown, enabled: false, note: "Not on Workday; own careers site." }
   - { name: BNP Paribas,        tier: Middle Market, platform: unknown, enabled: false }
-  - { name: Standard Chartered, tier: Middle Market, platform: workday, enabled: false, hint: "strong China mainland presence" }
-  - { name: Macquarie Group,    tier: Middle Market, platform: workday, enabled: false }
-  - { name: RBC Capital Markets, tier: Middle Market, platform: workday, enabled: false }
-  - { name: Mizuho,             tier: Middle Market, platform: unknown, enabled: false }
-  - { name: MUFG,               tier: Middle Market, platform: workday, enabled: false }
+  - { name: Standard Chartered, tier: Middle Market, platform: unknown, enabled: false, note: "Strong China/HK presence." }
+  - { name: Macquarie Group,    tier: Middle Market, platform: unknown, enabled: false, note: "mq.wd3/CareersatMQ is Macquarie UNIVERSITY -- rejected. Group uses a different tenant." }
+  - { name: MUFG,               tier: Middle Market, platform: unknown, enabled: false }
+  - { name: Mizuho,             tier: Middle Market, platform: unknown, enabled: false, note: "mizuhogroup.wd102/External answers but holds 1 posting; wrong site." }
 
-  # ------------------------------------------------------ targets: buy-side
-  - { name: Blackstone,             tier: Buy-Side, platform: unknown, enabled: false }
-  - { name: BlackRock,              tier: Buy-Side, platform: workday, enabled: false }
-  - { name: Ares Management,        tier: Buy-Side, platform: workday, enabled: false }
-  - { name: Millennium Management,  tier: Buy-Side, platform: greenhouse, enabled: false }
-  - { name: Citadel,                tier: Buy-Side, platform: greenhouse, enabled: false }
-  - { name: Point72,                tier: Buy-Side, platform: greenhouse, enabled: false }
+  # ================================================================= UK Banking
+  - name: Lloyds Banking Group
+    tier: UK Banking
+    platform: workday
+    enabled: true
+    host: lbg.wd3.myworkdayjobs.com
+    tenant: lbg
+    site: Undergraduate_careers
+    # Dedicated undergraduate site: all 26 postings at setup were UK
+    # Industrial Placements.
 
-  # ------------------------------------------------ targets: trading & quant
-  - { name: Jane Street,        tier: Trading & Quant, platform: unknown,    enabled: false, hint: "custom board" }
-  - { name: Optiver,            tier: Trading & Quant, platform: greenhouse, enabled: false }
-  - { name: IMC Trading,        tier: Trading & Quant, platform: greenhouse, enabled: false }
-  - { name: Hudson River Trading, tier: Trading & Quant, platform: greenhouse, enabled: false }
-  - { name: Susquehanna (SIG),  tier: Trading & Quant, platform: greenhouse, enabled: false }
-  - { name: DRW,                tier: Trading & Quant, platform: greenhouse, enabled: false }
-  - { name: Jump Trading,       tier: Trading & Quant, platform: greenhouse, enabled: false }
+  - { name: NatWest,      tier: UK Banking, platform: unknown, enabled: false }
+  - { name: Santander UK, tier: UK Banking, platform: unknown, enabled: false }
 
-  # --------------------------------------------------- targets: consulting
-  - { name: McKinsey & Company, tier: Consulting, platform: unknown, enabled: false, hint: "custom - mckinsey.com/careers" }
-  - { name: BCG,                tier: Consulting, platform: workday, enabled: false }
+  # =================================================================== Buy-Side
+  - name: Blackstone
+    tier: Buy-Side
+    platform: workday
+    enabled: true
+    host: blackstone.wd1.myworkdayjobs.com
+    tenant: blackstone
+    site: Blackstone_Campus_Careers
+    # Dedicated campus site. 30 internships at setup: 14 London, 1 Hong Kong.
+
+  - name: Neuberger Berman
+    tier: Buy-Side
+    platform: workday
+    enabled: true
+    host: nb.wd1.myworkdayjobs.com
+    tenant: nb
+    site: NBCareers
+
+  - { name: Point72,           tier: Buy-Side, platform: greenhouse, enabled: true, board: point72 }
+  - { name: Schonfeld,         tier: Buy-Side, platform: greenhouse, enabled: true, board: schonfeld }
+  - { name: Man Group,         tier: Buy-Side, platform: greenhouse, enabled: true, board: mangroup }
+  - { name: StepStone Group,   tier: Buy-Side, platform: greenhouse, enabled: true, board: stepstone }
+  - { name: AQR,               tier: Buy-Side, platform: greenhouse, enabled: true, board: aqr }
+  - { name: PDT Partners,      tier: Buy-Side, platform: greenhouse, enabled: true, board: pdtpartners }
+  - { name: Oak Hill Advisors, tier: Buy-Side, platform: greenhouse, enabled: true, board: oakhilladvisors }
+  - { name: General Atlantic,  tier: Buy-Side, platform: greenhouse, enabled: true, board: generalatlantic }
+
+  - { name: KKR,          tier: Buy-Side, platform: unknown, enabled: false }
+  - { name: Apollo,       tier: Buy-Side, platform: unknown, enabled: false, note: "Greenhouse 'apollo' is Apollo Education -- rejected." }
+  - { name: Carlyle,      tier: Buy-Side, platform: unknown, enabled: false }
+  - { name: Ares,         tier: Buy-Side, platform: unknown, enabled: false }
+  - { name: Citadel,      tier: Buy-Side, platform: unknown, enabled: false }
+  - { name: Millennium,   tier: Buy-Side, platform: unknown, enabled: false }
+  - { name: D.E. Shaw,    tier: Buy-Side, platform: unknown, enabled: false }
+  - { name: Two Sigma,    tier: Buy-Side, platform: unknown, enabled: false }
+  - { name: Permira,      tier: Buy-Side, platform: greenhouse, enabled: false, note: "Board exists but is empty." }
+
+  # =========================================================== Asset Management
+  - name: BlackRock
+    tier: Asset Management
+    platform: workday
+    enabled: true
+    host: blackrock.wd1.myworkdayjobs.com
+    tenant: blackrock
+    site: BlackRock_Professional
+
+  - name: Invesco
+    tier: Asset Management
+    platform: workday
+    enabled: true
+    host: invesco.wd1.myworkdayjobs.com
+    tenant: invesco
+    site: IVZ
+
+  - { name: Schroders,     tier: Asset Management, platform: unknown, enabled: false }
+  - { name: Fidelity Intl, tier: Asset Management, platform: unknown, enabled: false }
+  - { name: PIMCO,         tier: Asset Management, platform: unknown, enabled: false }
+
+  # ============================================================ Trading & Quant
+  - { name: IMC Trading,            tier: Trading & Quant, platform: greenhouse, enabled: true, board: imc }
+  - { name: Jump Trading,           tier: Trading & Quant, platform: greenhouse, enabled: true, board: jumptrading }
+  - { name: Tower Research Capital, tier: Trading & Quant, platform: greenhouse, enabled: true, board: towerresearchcapital }
+  - { name: Squarepoint Capital,    tier: Trading & Quant, platform: greenhouse, enabled: true, board: squarepointcapital }
+  - { name: Quadrature Capital,     tier: Trading & Quant, platform: greenhouse, enabled: true, board: quadraturecapital }
+  - { name: Flow Traders,           tier: Trading & Quant, platform: greenhouse, enabled: true, board: flowtraders }
+  - { name: Virtu Financial,        tier: Trading & Quant, platform: greenhouse, enabled: true, board: virtu }
+  - { name: DV Trading,             tier: Trading & Quant, platform: greenhouse, enabled: true, board: dvtrading }
+  - { name: GSA Capital,            tier: Trading & Quant, platform: greenhouse, enabled: true, board: gsacapital }
+  - { name: Xantium,                tier: Trading & Quant, platform: greenhouse, enabled: true, board: xantium }
+  - { name: iSAM,                   tier: Trading & Quant, platform: greenhouse, enabled: true, board: isam }
+  - { name: Jane Street,            tier: Trading & Quant, platform: greenhouse, enabled: true, board: janestreet }
+  - { name: Akuna Capital,          tier: Trading & Quant, platform: greenhouse, enabled: true, board: akunacapital }
+  - { name: Old Mission,            tier: Trading & Quant, platform: greenhouse, enabled: true, board: oldmissioncapital }
+  - { name: Mako,                   tier: Trading & Quant, platform: greenhouse, enabled: true, board: mako }
+  - { name: Winton,                 tier: Trading & Quant, platform: greenhouse, enabled: true, board: winton }
+  - { name: ExodusPoint,            tier: Trading & Quant, platform: greenhouse, enabled: true, board: exoduspoint }
+  - { name: Belvedere Trading,      tier: Trading & Quant, platform: lever,      enabled: true, board: belvederetrading }
+
+  - { name: Optiver,            tier: Trading & Quant, platform: greenhouse, enabled: false, note: "Board 'optiver' exists but is empty; they've moved." }
+  - { name: Marshall Wace,      tier: Trading & Quant, platform: greenhouse, enabled: false, note: "Board exists but is empty." }
+  - { name: Citadel Securities, tier: Trading & Quant, platform: unknown, enabled: false }
+  - { name: Hudson River Trading, tier: Trading & Quant, platform: unknown, enabled: false }
+  - { name: Susquehanna (SIG),  tier: Trading & Quant, platform: unknown, enabled: false }
+  - { name: DRW,                tier: Trading & Quant, platform: unknown, enabled: false }
+  - { name: XTX Markets,        tier: Trading & Quant, platform: unknown, enabled: false }
+  - { name: G-Research,         tier: Trading & Quant, platform: unknown, enabled: false }
+  - { name: Wintermute,         tier: Trading & Quant, platform: unknown, enabled: false }
+  - { name: Maven Securities,   tier: Trading & Quant, platform: unknown, enabled: false }
+
+  # ================================================================= Consulting
+  - name: FTI Consulting
+    tier: Consulting
+    platform: workday
+    enabled: true
+    host: fticonsulting.wd108.myworkdayjobs.com
+    tenant: fticonsulting
+    site: FTIConsultingCareers
+
+  - { name: Baringa,                   tier: Consulting, platform: greenhouse, enabled: true, board: baringa }
+  - { name: AlixPartners,              tier: Consulting, platform: greenhouse, enabled: true, board: alixpartners }
+  - { name: Charles River Associates,  tier: Consulting, platform: greenhouse, enabled: true, board: charlesriverassociates }
+  - { name: Teneo,                     tier: Consulting, platform: greenhouse, enabled: true, board: teneo }
+  - { name: Alpha FMC,                 tier: Consulting, platform: greenhouse, enabled: true, board: alphafmc }
+  - { name: Capco,                     tier: Consulting, platform: greenhouse, enabled: true, board: capco }
+
+  - { name: McKinsey & Company, tier: Consulting, platform: custom,  enabled: false, note: "Own careers site." }
+  - { name: BCG,                tier: Consulting, platform: unknown, enabled: false, note: "Greenhouse 'bcg' is Bohen Consulting Group -- rejected." }
   - { name: Bain & Company,     tier: Consulting, platform: unknown, enabled: false }
-  - { name: Oliver Wyman,       tier: Consulting, platform: workday, enabled: false, hint: "Marsh McLennan tenant" }
-  - { name: Deloitte,           tier: Big 4,      platform: unknown, enabled: false }
-  - { name: PwC,                tier: Big 4,      platform: unknown, enabled: false }
-  - { name: EY,                 tier: Big 4,      platform: unknown, enabled: false }
-  - { name: KPMG,               tier: Big 4,      platform: unknown, enabled: false }
+  - { name: Oliver Wyman,       tier: Consulting, platform: unknown, enabled: false, note: "Marsh McLennan tenant; Lever 'oliverwyman' is not the main board." }
+  - { name: L.E.K. Consulting,  tier: Consulting, platform: unknown, enabled: false }
+  - { name: OC&C,               tier: Consulting, platform: unknown, enabled: false }
+  - { name: Deloitte,           tier: Big 4, platform: unknown, enabled: false }
+  - { name: PwC,                tier: Big 4, platform: unknown, enabled: false }
+  - { name: EY,                 tier: Big 4, platform: unknown, enabled: false }
+  - { name: KPMG,               tier: Big 4, platform: unknown, enabled: false }
+
+  # ========================================================== Expert Networks
+  - { name: AlphaSights,  tier: Expert Networks, platform: greenhouse, enabled: true, board: alphasights }
+  - { name: Third Bridge, tier: Expert Networks, platform: greenhouse, enabled: true, board: thirdbridge }
+  - { name: Guidepoint,   tier: Expert Networks, platform: greenhouse, enabled: true, board: guidepoint }
+
+  # ======================================================== Payments & Markets
+  - name: Mastercard
+    tier: Payments & Markets
+    platform: workday
+    enabled: true
+    host: mastercard.wd1.myworkdayjobs.com
+    tenant: mastercard
+    site: Campus
+    # Dedicated campus site. Shanghai, Beijing and Hong Kong postings at setup.
+
+  - name: Capital One
+    tier: Payments & Markets
+    platform: workday
+    enabled: true
+    host: capitalone.wd12.myworkdayjobs.com
+    tenant: capitalone
+    site: Capital_One
+    passes:
+      - workerSubType: ["a12c70bf789e10572aab83c4780919ad"]
+
+  - name: Nasdaq
+    tier: Payments & Markets
+    platform: workday
+    enabled: true
+    host: nasdaq.wd1.myworkdayjobs.com
+    tenant: nasdaq
+    site: Global_External_Site
+
+  - { name: Stripe,   tier: Payments & Markets, platform: greenhouse, enabled: true, board: stripe }
+  - { name: Coinbase, tier: Payments & Markets, platform: greenhouse, enabled: true, board: coinbase }

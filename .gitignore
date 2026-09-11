@@ -2,3 +2,8 @@ data/last_digest.json
 __pycache__/
 *.pyc
 .venv/
+# tool outputs from discovery runs
+data/board_hits.json
+data/workday_hits.json
+data/workday_verify.txt
+data/dryrun.txt

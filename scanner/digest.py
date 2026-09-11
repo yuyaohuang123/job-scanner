@@ -24,7 +24,12 @@ from email.message import EmailMessage
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIGEST_PATH = os.path.join(ROOT, "data", "last_digest.json")
 
-REGION_LABEL = {"uk": "UK", "china": "China"}
+REGION_LABEL = {
+    "uk": "UK",
+    "china": "China mainland",
+    "hong-kong": "Hong Kong",
+    "australia": "Australia",
+}
 
 
 def load_digest(path=DIGEST_PATH):
