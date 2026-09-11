@@ -21,9 +21,9 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -33,6 +33,24 @@ jobs:
 
       - name: Run scan
         run: python -m scanner.scan
+
+      # Commit BEFORE attempting the email. Ordering matters: the first live
+      # run had a bad SMTP secret, the digest step failed, and the commit step
+      # after it was skipped -- so a broken email silently discarded a good
+      # scan. Persisting first means email trouble can only ever cost you the
+      # notification, never the data.
+      - name: Commit updated listings
+        if: always()
+        run: |
+          git config user.name  "job-scanner"
+          git config user.email "actions@github.com"
+          git add data/listings.json site/data.js
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Daily scan: $(date -u +'%Y-%m-%d')"
+            git push
+          fi
 
       - name: Send digest
         # Runs even if the scan partially failed, so you hear about breakage
@@ -45,15 +63,3 @@ jobs:
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           DIGEST_TO: ${{ secrets.DIGEST_TO }}
         run: python -m scanner.digest
-
-      - name: Commit updated listings
-        run: |
-          git config user.name  "job-scanner"
-          git config user.email "actions@github.com"
-          git add data/listings.json site/data.js
-          if git diff --staged --quiet; then
-            echo "No changes to commit."
-          else
-            git commit -m "Daily scan: $(date -u +'%Y-%m-%d')"
-            git push
-          fi

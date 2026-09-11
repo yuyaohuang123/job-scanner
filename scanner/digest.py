@@ -120,10 +120,32 @@ def send(subject, text_body, html_body):
     message.set_content(text_body)
     message.add_alternative(html_body, subtype="html")
 
-    with smtplib.SMTP(host, port, timeout=30) as smtp:
-        smtp.starttls()
-        smtp.login(user, password)
-        smtp.send_message(message)
+    try:
+        with smtplib.SMTP(host, port, timeout=30) as smtp:
+            smtp.starttls()
+            smtp.login(user, password)
+            smtp.send_message(message)
+    except smtplib.SMTPAuthenticationError as exc:
+        # The single most common failure. Spell out the fix rather than
+        # leaving a bare 535 in the log.
+        detail = exc.smtp_error
+        if isinstance(detail, bytes):
+            detail = detail.decode(errors="replace")
+        print(
+            f"SMTP authentication failed: {detail}\n"
+            "  - SMTP_PASSWORD must be a Gmail *App Password* "
+            "(myaccount.google.com/apppasswords), not your account password.\n"
+            "  - App Passwords require 2-Step Verification to be enabled.\n"
+            "  - SMTP_USER must be the same Google account that made the App Password.",
+            file=sys.stderr,
+        )
+        return False
+    except (smtplib.SMTPException, OSError) as exc:
+        print(
+            f"Could not send digest via {host}:{port} -- {type(exc).__name__}: {exc}",
+            file=sys.stderr,
+        )
+        return False
 
     print(f"Digest sent to {recipient}")
     return True
@@ -146,8 +168,10 @@ def main():
         print(text_body)
         return 0
 
-    send(subject, text_body, html_body)
-    return 0
+    # Exit non-zero on failure so the workflow run turns red and you notice --
+    # the workflow is ordered so the scan results are already committed by
+    # this point, so a broken email never costs you data.
+    return 0 if send(subject, text_body, html_body) else 1
 
 
 if __name__ == "__main__":
