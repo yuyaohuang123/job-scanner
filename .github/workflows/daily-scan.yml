@@ -22,6 +22,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+        with:
+          # Always build from the branch tip, not the commit the run was
+          # triggered from. Without this, "Re-run" replays the original
+          # commit, regenerates data from a stale base, and its push is
+          # rejected because the first attempt already moved main.
+          ref: main
 
       - uses: actions/setup-python@v6
         with:
@@ -49,6 +55,10 @@ jobs:
             echo "No changes to commit."
           else
             git commit -m "Daily scan: $(date -u +'%Y-%m-%d')"
+            # If main moved while we ran, replay our commit on top of it. On
+            # a conflict in the data files, this run's freshly generated
+            # version wins ("theirs" is our commit during a rebase).
+            git pull --rebase -X theirs origin main
             git push
           fi
 

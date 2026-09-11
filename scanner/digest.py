@@ -17,6 +17,7 @@ import html
 import json
 import os
 import smtplib
+import socket
 import sys
 from email.message import EmailMessage
 
@@ -102,16 +103,67 @@ def render(payload):
     return subject, "\n".join(text_lines).strip(), "".join(html_parts)
 
 
+def _env(name):
+    """Read a secret, tolerating the whitespace that copy-paste drags in."""
+    value = os.environ.get(name)
+    return value.strip() if value else value
+
+
+def _normalise_host(host):
+    """Turn the ways people mistype a hostname into a hostname.
+
+    GitHub masks secret values in logs, so a bad SMTP_HOST shows up only as
+    `***` and a DNS error. Rather than leave you guessing, recognise the
+    common mistakes here, fix the ones that are unambiguous, and describe the
+    rest -- all without ever printing the value itself.
+    """
+    original = host
+    hints = []
+
+    if "://" in host:
+        host = host.split("://", 1)[1]
+        hints.append("had a URL scheme like https:// in front (removed)")
+    if "/" in host:
+        host = host.split("/", 1)[0]
+        hints.append("had a path after the hostname (removed)")
+    if ":" in host:
+        host = host.split(":", 1)[0]
+        hints.append("had a port on the end -- the port belongs in SMTP_PORT (removed)")
+    if "@" in host:
+        hints.append("looks like an email address, not a mail server hostname")
+    if " " in host:
+        hints.append("contains a space in the middle")
+    if host != original and not hints:
+        hints.append("had leading/trailing whitespace (removed)")
+
+    return host, hints
+
+
 def send(subject, text_body, html_body):
-    host = os.environ.get("SMTP_HOST")
-    user = os.environ.get("SMTP_USER")
-    password = os.environ.get("SMTP_PASSWORD")
-    port = int(os.environ.get("SMTP_PORT", "587"))
-    recipient = os.environ.get("DIGEST_TO") or user
+    host = _env("SMTP_HOST")
+    user = _env("SMTP_USER")
+    password = _env("SMTP_PASSWORD")
+    recipient = _env("DIGEST_TO") or user
+
+    try:
+        port = int(_env("SMTP_PORT") or "587")
+    except ValueError:
+        print("SMTP_PORT is not a number -- it should be 587.", file=sys.stderr)
+        return False
 
     if not all([host, user, password, recipient]):
-        print("SMTP not configured; skipping email.", file=sys.stderr)
+        missing = [n for n, v in [("SMTP_HOST", host), ("SMTP_USER", user),
+                                  ("SMTP_PASSWORD", password)] if not v]
+        print(f"SMTP not configured; skipping email. Missing: {', '.join(missing)}",
+              file=sys.stderr)
         return False
+
+    host, hints = _normalise_host(host)
+    for hint in hints:
+        print(f"SMTP_HOST {hint}.", file=sys.stderr)
+    if hints:
+        print(f"SMTP_HOST should be exactly: smtp.gmail.com  (yours is {len(host)} chars"
+              f" after cleanup; expected 14)", file=sys.stderr)
 
     message = EmailMessage()
     message["Subject"] = subject
@@ -145,6 +197,17 @@ def send(subject, text_body, html_body):
             f"Could not send digest via {host}:{port} -- {type(exc).__name__}: {exc}",
             file=sys.stderr,
         )
+        if isinstance(exc, socket.gaierror):
+            # DNS couldn't resolve the host. The value is masked in CI logs,
+            # so give the one clue that doesn't reveal it: its length.
+            print(
+                f"  The mail server hostname could not be found. SMTP_HOST is "
+                f"{len(host)} characters; 'smtp.gmail.com' is 14. "
+                + ("That length matches, so check for a mistyped letter."
+                   if len(host) == 14 else
+                   "Re-enter the SMTP_HOST secret as exactly: smtp.gmail.com"),
+                file=sys.stderr,
+            )
         return False
 
     print(f"Digest sent to {recipient}")
