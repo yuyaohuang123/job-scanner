@@ -6,6 +6,11 @@ on:
     # infrastructure get queued behind everyone else's :00 cron jobs.
     - cron: "15 6 * * *"
   workflow_dispatch:  # lets you trigger a run by hand from the Actions tab
+    inputs:
+      test_email:
+        description: "Also send a test email, to verify the SMTP secrets"
+        type: boolean
+        default: false
 
 # Needed so the workflow can commit the refreshed listings back to the repo.
 permissions:
@@ -73,3 +78,14 @@ jobs:
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           DIGEST_TO: ${{ secrets.DIGEST_TO }}
         run: python -m scanner.digest
+
+      - name: Send test email
+        # Only when the "test_email" box was ticked on a manual run.
+        if: ${{ inputs.test_email }}
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          DIGEST_TO: ${{ secrets.DIGEST_TO }}
+        run: python -m scanner.digest --test

@@ -214,7 +214,41 @@ def send(subject, text_body, html_body):
     return True
 
 
+def send_test():
+    """Send a short email regardless of whether anything changed.
+
+    The digest deliberately stays silent when there's nothing new, which
+    means a freshly configured install has no way to prove its SMTP settings
+    work until a real listing appears -- possibly days later, and silently
+    broken if not. This gives you a button to press instead.
+    """
+    from . import store as store_module
+    current = store_module.load(os.path.join(ROOT, "data", "listings.json"))
+    open_count = len(store_module.open_listings(current))
+    last_scan = current.get("last_scan") or "never"
+
+    subject = "Job scanner: test email"
+    text = (
+        "Your job scanner can send email.\n\n"
+        f"Currently tracking {open_count} open listing(s).\n"
+        f"Last scan: {last_scan}\n\n"
+        "You'll get a digest like this only on days something changes."
+    )
+    body_html = (
+        "<div style=\"font-family:-apple-system,Segoe UI,Roboto,sans-serif;font-size:14px;\">"
+        "<p><b>Your job scanner can send email.</b></p>"
+        f"<p>Currently tracking <b>{open_count}</b> open listing(s).<br>"
+        f"Last scan: {html.escape(str(last_scan))}</p>"
+        "<p style=\"color:#5b6b7c;\">You'll get a digest like this only on days "
+        "something changes.</p></div>"
+    )
+    return 0 if send(subject, text, body_html) else 1
+
+
 def main():
+    if "--test" in sys.argv:
+        return send_test()
+
     payload = load_digest()
     if payload is None:
         print("No digest payload; run a scan first.")
