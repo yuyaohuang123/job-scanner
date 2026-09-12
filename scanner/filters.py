@@ -117,9 +117,9 @@ def classify_role(title, worker_sub_type=None):
     # when a label also mentions placements.
     label = (worker_sub_type or "").strip().lower()
     if label and "graduate" not in label:
-        if "placement" in label:
+        if PLACEMENT_RE.search(label) or label == "placement":
             return "placement"
-        if "intern" in label or label == "student":
+        if INTERNSHIP_RE.search(label) or label in ("student", "seasonal"):
             return "internship"
 
     return None

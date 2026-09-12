@@ -9,3 +9,5 @@ data/workday_verify.txt
 data/dryrun.txt
 data/*.html
 data/jpm_programs.json
+data/gs*.js
+data/gs.html

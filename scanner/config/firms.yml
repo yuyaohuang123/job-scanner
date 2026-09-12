@@ -86,7 +86,13 @@ firms:
       - "300000000289192"   # China
       - "300000000289090"   # Australia
 
-  - { name: Goldman Sachs,   tier: Bulge Bracket, platform: custom, enabled: false, note: "Own careers platform (Higher). Needs a dedicated adapter." }
+  - name: Goldman Sachs
+    tier: Bulge Bracket
+    platform: goldman
+    enabled: true
+    # GraphQL gateway behind higher.gs.com. 79 in-region campus roles at
+    # setup (49 UK, 28 HK, 10 CN, 10 AU) incl. two London One Year Work
+    # Placements.
   - name: Citi
     tier: Bulge Bracket
     platform: radancy

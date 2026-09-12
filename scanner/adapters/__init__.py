@@ -5,6 +5,7 @@ Each adapter turns one platform's API into the same normalised posting dict, so
 """
 
 from .bofa import BofaAdapter
+from .goldman import GoldmanAdapter
 from .greenhouse import GreenhouseAdapter
 from .hsbc import HsbcAdapter
 from .lever import LeverAdapter
@@ -22,6 +23,7 @@ ADAPTERS = {
     "morganstanley": MorganStanleyAdapter,
     "radancy": RadancyAdapter,
     "bofa": BofaAdapter,
+    "goldman": GoldmanAdapter,
 }
 
 
