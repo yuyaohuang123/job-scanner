@@ -23,16 +23,36 @@ three lines of config, not a new scraper.
 
 ## Status
 
-**63 firms verified and enabled** across Workday, Greenhouse and Lever. At
-setup the scan returned 178 internship and placement listings: 93 UK,
-30 Hong Kong, 16 China mainland, 2 Australia. Regions covered: UK, China
-mainland, Hong Kong, Australia.
+**76 firms verified and enabled** across eleven platforms. At setup the scan
+returned 449 internship and placement listings -- 49 of them industrial /
+year-long placements -- across the UK, China mainland, Hong Kong and
+Australia.
 
-**Not yet configured:** the remaining targets in `scanner/config/firms.yml`
-sit at `enabled: false` with a `note` on why. The notable gaps are the firms
-that run their own careers platforms rather than a standard ATS -- Goldman
-Sachs, J.P. Morgan, Citi, HSBC, UBS, McKinsey, BCG, Bain, the Big 4 -- each of
-which needs a dedicated adapter.
+Every bulge-bracket bank has a working adapter: Goldman Sachs (GraphQL),
+J.P. Morgan (Oracle), Morgan Stanley (campus feed), Citi (Radancy), Bank of
+America (campus servlet), UBS (Taleo graduate board), HSBC (curated
+programme list), Barclays / Deutsche / Wells Fargo (Workday).
+
+Consulting and the Big 4: BCG (Phenom), Bain (JSON), PwC UK (Phenom),
+KPMG UK (HTML), EY (SuccessFactors), Deloitte UK (Avature). The Big 4
+student cycles had not opened at setup, so those adapters are in place and
+waiting rather than returning data yet.
+
+**Not covered:** McKinsey -- its Akamai layer resets non-browser TLS
+connections, which would also block the GitHub runner, and its listings are
+evergreen role types with no deadlines. Check mckinsey.com/careers by hand.
+
+| Platform | Adapter | Firms |
+|---|---|---|
+| Workday | `workday.py` | Barclays, Deutsche, Wells Fargo, Blackstone, Lloyds, PJT, … |
+| Greenhouse / Lever | `greenhouse.py`, `lever.py` | quant/trading, buy-side, boutiques |
+| Oracle Recruiting Cloud | `oracle.py` | J.P. Morgan |
+| Radancy | `radancy.py` | Citi |
+| Phenom People | `phenom.py` | BCG, PwC UK |
+| Taleo Enterprise | `taleo.py` | UBS |
+| SuccessFactors | `successfactors.py` | EY |
+| Avature | `avature.py` | Deloitte UK |
+| Firm-specific | `goldman.py`, `morganstanley.py`, `bofa.py`, `hsbc.py`, `bain.py`, `kpmg.py` | as named |
 
 ## Discovery tools
 
