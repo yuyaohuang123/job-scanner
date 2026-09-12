@@ -347,8 +347,15 @@ firms:
   - { name: Alpha FMC,                 tier: Consulting, platform: greenhouse, enabled: true, board: alphafmc }
   - { name: Capco,                     tier: Consulting, platform: greenhouse, enabled: true, board: capco }
 
-  - { name: McKinsey & Company, tier: Consulting, platform: custom,  enabled: false, note: "Own careers site." }
-  - { name: BCG,                tier: Consulting, platform: unknown, enabled: false, note: "Greenhouse 'bcg' is Bohen Consulting Group -- rejected." }
+  - { name: McKinsey & Company, tier: Consulting, platform: custom,  enabled: false, note: "Akamai blocks non-browser clients at the TLS level (connection reset). Listings are evergreen role types without deadlines -- check mckinsey.com/careers by hand." }
+  - name: BCG
+    tier: Consulting
+    platform: phenom
+    enabled: true
+    host: careers.bcg.com
+    # Global board holds BCG X and support-function internships; the
+    # consulting Summer Associate cycle runs separately and appears here
+    # only when posted. (Greenhouse 'bcg' is Bohen Consulting Group.)
   - { name: Bain & Company,     tier: Consulting, platform: unknown, enabled: false }
   - { name: Oliver Wyman,       tier: Consulting, platform: unknown, enabled: false, note: "Marsh McLennan tenant; Lever 'oliverwyman' is not the main board." }
   - { name: L.E.K. Consulting,  tier: Consulting, platform: unknown, enabled: false }
