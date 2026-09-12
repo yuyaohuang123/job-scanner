@@ -356,7 +356,12 @@ firms:
     # Global board holds BCG X and support-function internships; the
     # consulting Summer Associate cycle runs separately and appears here
     # only when posted. (Greenhouse 'bcg' is Bohen Consulting Group.)
-  - { name: Bain & Company,     tier: Consulting, platform: unknown, enabled: false }
+  - name: Bain & Company
+    tier: Consulting
+    platform: bain
+    enabled: true
+    # One JSON call returns all ~300 postings. Global internships list
+    # every office, so they show under the first of our regions they mention.
   - { name: Oliver Wyman,       tier: Consulting, platform: unknown, enabled: false, note: "Marsh McLennan tenant; Lever 'oliverwyman' is not the main board." }
   - { name: L.E.K. Consulting,  tier: Consulting, platform: unknown, enabled: false }
   - { name: OC&C,               tier: Consulting, platform: unknown, enabled: false }

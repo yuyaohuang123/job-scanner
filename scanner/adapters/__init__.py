@@ -4,6 +4,7 @@ Each adapter turns one platform's API into the same normalised posting dict, so
 `scan.py` never needs to know which platform a firm is on.
 """
 
+from .bain import BainAdapter
 from .bofa import BofaAdapter
 from .goldman import GoldmanAdapter
 from .greenhouse import GreenhouseAdapter
@@ -28,6 +29,7 @@ ADAPTERS = {
     "goldman": GoldmanAdapter,
     "taleo": TaleoAdapter,
     "phenom": PhenomAdapter,
+    "bain": BainAdapter,
 }
 
 
