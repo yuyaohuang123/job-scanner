@@ -6,12 +6,14 @@ Each adapter turns one platform's API into the same normalised posting dict, so
 
 from .greenhouse import GreenhouseAdapter
 from .lever import LeverAdapter
+from .oracle import OracleAdapter
 from .workday import WorkdayAdapter
 
 ADAPTERS = {
     "workday": WorkdayAdapter,
     "greenhouse": GreenhouseAdapter,
     "lever": LeverAdapter,
+    "oracle": OracleAdapter,
 }
 
 

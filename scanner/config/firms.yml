@@ -70,8 +70,23 @@ firms:
       - workerSubType: ["5a72a211d621102a11412ae10c95037b"]
       - Location_Country: ["d4afdeb461d446e4babd204bd102dba8", "29247e57dbaf46fb855b224e03170bc7", "d903bb3fedad45039383f6de334ad4db"]
 
+  - name: J.P. Morgan
+    tier: Bulge Bracket
+    platform: oracle
+    enabled: true
+    host: jpmc.fa.oraclecloud.com
+    site: CX_1001
+    # Location facet ids, one per country. 33 UK internships/placements at
+    # setup, including the 12-month Software Engineer Industrial Placement
+    # in Glasgow. 7,400 open reqs in total, so the country filter is what
+    # makes this scannable.
+    locations:
+      - "300000000289276"   # United Kingdom
+      - "300000000289330"   # Hong Kong
+      - "300000000289192"   # China
+      - "300000000289090"   # Australia
+
   - { name: Goldman Sachs,   tier: Bulge Bracket, platform: custom, enabled: false, note: "Own careers platform (Higher). Needs a dedicated adapter." }
-  - { name: J.P. Morgan,     tier: Bulge Bracket, platform: custom, enabled: false, note: "Oracle Cloud HCM. Needs a dedicated adapter." }
   - { name: Citi,            tier: Bulge Bracket, platform: custom, enabled: false, note: "Eightfold-backed jobs.citi.com. Needs a dedicated adapter." }
   - { name: Bank of America, tier: Bulge Bracket, platform: custom, enabled: false, note: "Own careers site. Needs a dedicated adapter." }
   - { name: UBS,             tier: Bulge Bracket, platform: custom, enabled: false, note: "Workday behind bot-protected jobs.ubs.com; tenant ubs.wd3 confirmed but site id not public." }

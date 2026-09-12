@@ -136,6 +136,11 @@ def run(config, only_firm=None, dry_run=False):
     return 0
 
 
+def _looks_like_date(value):
+    """True for ISO-ish dates. Workday gives 'Posted Today'; Oracle gives 2026-09-12."""
+    return bool(value) and len(value) >= 10 and value[4] == "-" and value[7] == "-"
+
+
 def write_site_data(current):
     """Regenerate the tracker's data file.
 
@@ -162,8 +167,8 @@ def write_site_data(current):
                         "region": row.get("region", ""),
                         "category": row.get("category", ""),
                         "location": row.get("location", ""),
-                        "openDate": None,
-                        "closeDate": None,
+                        "openDate": (row.get("posted_on") or "")[:10] if _looks_like_date(row.get("posted_on")) else None,
+                        "closeDate": (row.get("close_date") or "")[:10] if _looks_like_date(row.get("close_date")) else None,
                         "latestStage": None,
                         "process": [],
                         "testPrep": "",
