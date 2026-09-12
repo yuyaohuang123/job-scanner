@@ -15,6 +15,7 @@ from .morganstanley import MorganStanleyAdapter
 from .oracle import OracleAdapter
 from .phenom import PhenomAdapter
 from .radancy import RadancyAdapter
+from .successfactors import SuccessFactorsAdapter
 from .taleo import TaleoAdapter
 from .workday import WorkdayAdapter
 
@@ -32,6 +33,7 @@ ADAPTERS = {
     "phenom": PhenomAdapter,
     "bain": BainAdapter,
     "kpmg": KpmgAdapter,
+    "successfactors": SuccessFactorsAdapter,
 }
 
 

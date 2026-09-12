@@ -378,7 +378,15 @@ firms:
     # Student roles share the index with experienced hires; at setup only
     # the Belfast Undergraduate Work Placement was live. The 11-month
     # placement scheme and summer internships land here when the cycle opens.
-  - { name: EY,                 tier: Big 4, platform: unknown, enabled: false }
+  - name: EY
+    tier: Big 4
+    platform: successfactors
+    enabled: true
+    host: careers.ey.com
+    site: ey
+    # Keyword passes per country over the SuccessFactors search. Industrial
+    # Placement applications were closed at setup; they reappear here when
+    # EY's 2027 UK cycle opens.
   - name: KPMG UK
     tier: Big 4
     platform: kpmg
