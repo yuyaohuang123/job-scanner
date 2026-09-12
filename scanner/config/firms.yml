@@ -379,7 +379,13 @@ firms:
     # the Belfast Undergraduate Work Placement was live. The 11-month
     # placement scheme and summer internships land here when the cycle opens.
   - { name: EY,                 tier: Big 4, platform: unknown, enabled: false }
-  - { name: KPMG,               tier: Big 4, platform: unknown, enabled: false }
+  - name: KPMG UK
+    tier: Big 4
+    platform: kpmg
+    enabled: true
+    # HTML cards, six per page. No student vacancies open at setup; the
+    # One Year Business Placement and vacation programmes appear here when
+    # the 2027 cycle opens.
 
   # ========================================================== Expert Networks
   - { name: AlphaSights,  tier: Expert Networks, platform: greenhouse, enabled: true, board: alphasights }

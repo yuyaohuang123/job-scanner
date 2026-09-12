@@ -9,6 +9,7 @@ from .bofa import BofaAdapter
 from .goldman import GoldmanAdapter
 from .greenhouse import GreenhouseAdapter
 from .hsbc import HsbcAdapter
+from .kpmg import KpmgAdapter
 from .lever import LeverAdapter
 from .morganstanley import MorganStanleyAdapter
 from .oracle import OracleAdapter
@@ -30,6 +31,7 @@ ADAPTERS = {
     "taleo": TaleoAdapter,
     "phenom": PhenomAdapter,
     "bain": BainAdapter,
+    "kpmg": KpmgAdapter,
 }
 
 

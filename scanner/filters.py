@@ -65,6 +65,14 @@ PLACEMENT_RE = _words(
     "student placement",
     "placement student",
     "industrial trainee",
+    "one year placement",
+    "one-year placement",
+    "year long placement",
+    "year-long placement",
+    "business placement",     # KPMG's "One Year Business Placement"
+    "placement programme",
+    "placement program",
+    "placement scheme",
 )
 
 # Graduate-role titles: "Full Time Analyst", "Full-Time Associate". Narrow on
@@ -116,10 +124,12 @@ def classify_role(title, worker_sub_type=None):
     # Graduate schemes are explicitly not what we want, so they lose even
     # when a label also mentions placements.
     label = (worker_sub_type or "").strip().lower()
-    if label and "graduate" not in label:
+    # "graduate" rules a label out -- but "undergraduate" contains it.
+    is_grad_label = "graduate" in label and "undergraduate" not in label
+    if label and not is_grad_label:
         if PLACEMENT_RE.search(label) or label == "placement":
             return "placement"
-        if INTERNSHIP_RE.search(label) or label in ("student", "seasonal"):
+        if INTERNSHIP_RE.search(label) or label in ("student", "seasonal", "undergraduate"):
             return "internship"
 
     return None
