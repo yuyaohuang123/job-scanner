@@ -97,7 +97,12 @@ firms:
     # Curated "Find a programme" list on hsbc.com -- every programme that is
     # open right now, with opening/closing/start dates. Covers UK, HK, China
     # mainland and Australia programmes from one source.
-  - { name: Morgan Stanley (campus), tier: Bulge Bracket, platform: custom, enabled: false, note: "Summer Analyst programme lives on morganstanley.com/careers, not Workday." }
+  - name: Morgan Stanley (campus)
+    tier: Bulge Bracket
+    platform: morganstanley
+    enabled: true
+    # Students & graduates JSON feed on morganstanley.com. 37 in-region at
+    # setup, 11 of them Industrial Placements, with application deadlines.
 
   # ============================================================== Elite Boutique
   - name: PJT Partners

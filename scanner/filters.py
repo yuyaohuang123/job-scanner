@@ -65,6 +65,8 @@ PLACEMENT_RE = _words(
     "industrial trainee",
 )
 
+FULL_TIME_RE = _words("full time", "full-time", "fulltime")
+
 # Titles that are ABOUT the internship programme rather than a seat on it.
 # These always lose, even though they contain a perfectly good "internship".
 #
@@ -98,6 +100,12 @@ def classify_role(title, worker_sub_type=None):
 
     if INTERNSHIP_RE.search(title):
         return "internship"
+
+    # A title that says full-time is a graduate role whatever the platform
+    # labelled it -- Morgan Stanley tags "Full Time Analyst Programme" as
+    # Internship.
+    if FULL_TIME_RE.search(title):
+        return None
 
     # The platform's own label, for titles that don't say ("2027 Analyst,
     # London" tagged Intern; HSBC's "Programme type: Internship Programme").

@@ -7,6 +7,7 @@ Each adapter turns one platform's API into the same normalised posting dict, so
 from .greenhouse import GreenhouseAdapter
 from .hsbc import HsbcAdapter
 from .lever import LeverAdapter
+from .morganstanley import MorganStanleyAdapter
 from .oracle import OracleAdapter
 from .workday import WorkdayAdapter
 
@@ -16,6 +17,7 @@ ADAPTERS = {
     "lever": LeverAdapter,
     "oracle": OracleAdapter,
     "hsbc": HsbcAdapter,
+    "morganstanley": MorganStanleyAdapter,
 }
 
 
