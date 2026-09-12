@@ -9,6 +9,7 @@ from .hsbc import HsbcAdapter
 from .lever import LeverAdapter
 from .morganstanley import MorganStanleyAdapter
 from .oracle import OracleAdapter
+from .radancy import RadancyAdapter
 from .workday import WorkdayAdapter
 
 ADAPTERS = {
@@ -18,6 +19,7 @@ ADAPTERS = {
     "oracle": OracleAdapter,
     "hsbc": HsbcAdapter,
     "morganstanley": MorganStanleyAdapter,
+    "radancy": RadancyAdapter,
 }
 
 

@@ -47,6 +47,8 @@ INTERNSHIP_RE = _words(
     "offcycle",
     "vacation scheme",
     "vacation programme",
+    "placement analyst",   # Citi's name for an off-cycle internship
+    "seasonal analyst",    # J.P. Morgan's
 )
 
 PLACEMENT_RE = _words(
@@ -65,7 +67,9 @@ PLACEMENT_RE = _words(
     "industrial trainee",
 )
 
-FULL_TIME_RE = _words("full time", "full-time", "fulltime")
+# Graduate-role titles: "Full Time Analyst", "Full-Time Associate". Narrow on
+# purpose -- "Full-time Summer Intern" is a real internship and must survive.
+FULL_TIME_RE = re.compile(r"full[ -]?time\s+(analyst|associate|graduate|hire)", re.IGNORECASE)
 
 # Titles that are ABOUT the internship programme rather than a seat on it.
 # These always lose, even though they contain a perfectly good "internship".
@@ -95,17 +99,17 @@ def classify_role(title, worker_sub_type=None):
     """
     title = title or ""
 
+    # A graduate-role title loses whatever else it says. Morgan Stanley tags
+    # "Full Time Analyst Programme" as Internship; Citi's conversions read
+    # "Full Time Analyst ... (Applicable for 2026 Summer interns only)".
+    if FULL_TIME_RE.search(title):
+        return None
+
     if PLACEMENT_RE.search(title):
         return "placement"
 
     if INTERNSHIP_RE.search(title):
         return "internship"
-
-    # A title that says full-time is a graduate role whatever the platform
-    # labelled it -- Morgan Stanley tags "Full Time Analyst Programme" as
-    # Internship.
-    if FULL_TIME_RE.search(title):
-        return None
 
     # The platform's own label, for titles that don't say ("2027 Analyst,
     # London" tagged Intern; HSBC's "Programme type: Internship Programme").
