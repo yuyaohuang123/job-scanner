@@ -4,6 +4,7 @@ Each adapter turns one platform's API into the same normalised posting dict, so
 `scan.py` never needs to know which platform a firm is on.
 """
 
+from .avature import AvatureAdapter
 from .bain import BainAdapter
 from .bofa import BofaAdapter
 from .goldman import GoldmanAdapter
@@ -34,6 +35,7 @@ ADAPTERS = {
     "bain": BainAdapter,
     "kpmg": KpmgAdapter,
     "successfactors": SuccessFactorsAdapter,
+    "avature": AvatureAdapter,
 }
 
 

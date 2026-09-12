@@ -365,7 +365,16 @@ firms:
   - { name: Oliver Wyman,       tier: Consulting, platform: unknown, enabled: false, note: "Marsh McLennan tenant; Lever 'oliverwyman' is not the main board." }
   - { name: L.E.K. Consulting,  tier: Consulting, platform: unknown, enabled: false }
   - { name: OC&C,               tier: Consulting, platform: unknown, enabled: false }
-  - { name: Deloitte,           tier: Big 4, platform: unknown, enabled: false }
+  - name: Deloitte UK
+    tier: Big 4
+    platform: avature
+    enabled: true
+    host: apply.deloitte.co.uk
+    portal: UKEarlyCareers
+    default_location: United Kingdom
+    # Dedicated early-careers Avature portal. Empty at setup ("no available
+    # opportunities"); Industrial Placements, Summer Vacation Scheme and
+    # Spring into Deloitte land here when the 2027 cycle opens.
   - name: PwC UK
     tier: Big 4
     platform: phenom
