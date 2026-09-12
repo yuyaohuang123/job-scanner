@@ -99,9 +99,16 @@ def classify_role(title, worker_sub_type=None):
     if INTERNSHIP_RE.search(title):
         return "internship"
 
-    # Platform said Intern even though the title is bare ("2027 Analyst, London").
-    if worker_sub_type and worker_sub_type.strip().lower() in ("intern", "internship", "student"):
-        return "internship"
+    # The platform's own label, for titles that don't say ("2027 Analyst,
+    # London" tagged Intern; HSBC's "Programme type: Internship Programme").
+    # Graduate schemes are explicitly not what we want, so they lose even
+    # when a label also mentions placements.
+    label = (worker_sub_type or "").strip().lower()
+    if label and "graduate" not in label:
+        if "placement" in label:
+            return "placement"
+        if "intern" in label or label == "student":
+            return "internship"
 
     return None
 

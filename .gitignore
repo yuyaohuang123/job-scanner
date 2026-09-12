@@ -7,3 +7,5 @@ data/board_hits.json
 data/workday_hits.json
 data/workday_verify.txt
 data/dryrun.txt
+data/*.html
+data/jpm_programs.json

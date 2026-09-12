@@ -90,7 +90,13 @@ firms:
   - { name: Citi,            tier: Bulge Bracket, platform: custom, enabled: false, note: "Eightfold-backed jobs.citi.com. Needs a dedicated adapter." }
   - { name: Bank of America, tier: Bulge Bracket, platform: custom, enabled: false, note: "Own careers site. Needs a dedicated adapter." }
   - { name: UBS,             tier: Bulge Bracket, platform: custom, enabled: false, note: "Workday behind bot-protected jobs.ubs.com; tenant ubs.wd3 confirmed but site id not public." }
-  - { name: HSBC,            tier: Bulge Bracket, platform: custom, enabled: false, note: "Avature. Strong China/HK presence -- worth an adapter." }
+  - name: HSBC
+    tier: Bulge Bracket
+    platform: hsbc
+    enabled: true
+    # Curated "Find a programme" list on hsbc.com -- every programme that is
+    # open right now, with opening/closing/start dates. Covers UK, HK, China
+    # mainland and Australia programmes from one source.
   - { name: Morgan Stanley (campus), tier: Bulge Bracket, platform: custom, enabled: false, note: "Summer Analyst programme lives on morganstanley.com/careers, not Workday." }
 
   # ============================================================== Elite Boutique
