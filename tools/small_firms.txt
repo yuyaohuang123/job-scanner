@@ -1,0 +1,376 @@
+# Smaller firms to probe across Greenhouse / Lever / SmartRecruiters / Ashby / Workable.
+# --- advisory & boutique IB
+Wincent
+AmplifyME
+EDF Trading
+Ardea Partners
+Fenchurch Advisory
+DC Advisory
+Eastdil Secured
+Campbell Lutyens
+Gleacher Shacklock
+Rede Partners
+Panmure Liberum
+Alantra
+BTIG
+Peel Hunt
+Baird
+Investec
+Pharus
+Quantuma
+Skagen Capital
+Flowdesk
+GP Bullhound
+Global Infrastructure Advisors
+Leerink Partners
+Insurance Advisory Partners
+STJ Advisors
+Stifel
+Gneiss Energy
+Stout
+Cygnum Capital
+Berenberg
+Handelsbanken
+Zeus Capital
+Cavendish
+Numis
+Singer Capital Markets
+Shore Capital
+Canaccord Genuity
+finnCap
+Arrowpoint Advisory
+Clearwater International
+Houlihan Lokey
+Piper Sandler
+Deutsche Numis
+Kroll
+Duff and Phelps
+FTI Consulting
+Teneo
+Evelyn Partners
+Grant Thornton
+BDO
+RSM
+Crowe
+Mazars
+Saffery
+Menzies
+Moore Kingston Smith
+Buzzacott
+Haysmacintyre
+# --- buy-side, PE, hedge, real assets
+CD&R
+Atlas Holdings
+GIC
+Temasek
+Balyasny
+Capstone Investment Advisors
+InfraRed Capital Partners
+Verition
+Orbis
+Brevan Howard
+Harrison Street
+Cambridge Associates
+Future Planet Capital
+W. P. Carey
+Brio Real Estate
+LaSalle
+Rokos Capital Management
+Welltower
+Hayfin
+Arena Investors
+Equitix
+Burford Capital
+Caxton Associates
+BGF
+Sona Asset Management
+LMR Partners
+Compound Equity Group
+Westgrove
+Alvine Capital
+Pictet
+Global Gate
+Affinius Capital
+Greystar
+Climate Investment
+Intriva
+Kline Hill Partners
+Hamilton Lane
+Patrizia
+Capital Group
+PIMCO
+Barings
+Schroders
+Redburn
+Walter Scott
+Hines
+Lazard Asset Management
+DWS
+Principal Asset Management
+Norges Bank Investment Management
+British Land
+AllianceBernstein
+Arbuthnot Latham
+Altana Wealth
+Soros Fund Management
+Caledonia Investments
+Columbia Threadneedle
+JLL
+Cabot Properties
+Weatherbys
+Sixth Street
+Vanguard
+MFS
+Dimensional Fund Advisors
+Legal and General
+AustralianSuper
+Chatham Financial
+Blackfinch
+7IM
+Nuveen
+Julius Baer
+Northern Trust
+Franklin Templeton
+Ruffer
+Rathbones
+Liontrust
+Jupiter Asset Management
+Polar Capital
+Ninety One
+Federated Hermes
+Royal London Asset Management
+Aberdeen
+Artemis
+Lindsell Train
+Marathon Asset Management
+Lansdowne Partners
+Egerton Capital
+Cheyne Capital
+CQS
+Pharo Management
+Fulcrum Asset Management
+Systematica
+Winton
+Aspect Capital
+Florin Court
+Trium Capital
+Tudor
+Millennium
+Eisler Capital
+Squarepoint
+Qube Research
+Engineers Gate
+# --- trading & quant
+Maven Securities
+G-Research
+Quantbot Technologies
+Chicago Trading Company
+Castleton Commodities
+Da Vinci Trading
+Susquehanna
+DRW
+Citadel Securities
+Aquatic Capital
+Synthesis
+XTX Markets
+Wintermute
+Shell Trading
+Equinor
+RWE Supply and Trading
+StoneX
+Bastion Trading
+Javelin Global Commodities
+BP Trading
+Dare
+Mako
+State Street
+BMLL
+Genesis Quant Capital
+MarketAxess
+SilverTide
+Liquidnet
+Teza Technologies
+Clarksons
+Gunvor
+Trafigura
+Vitol
+Mercuria
+Hartree Partners
+Freepoint Commodities
+Onyx Capital Group
+Marex
+TP ICAP
+Tradition
+BGC Group
+Cboe
+Optiver
+Hudson River Trading
+Jane Street
+Tibra
+Vivienne Court
+Eclipse Trading
+Akuna Capital
+Belvedere Trading
+Old Mission
+Headlands Technologies
+Radix Trading
+Five Rings
+Tower Research
+Two Sigma
+PDT Partners
+Cubist
+Walleye Capital
+Verition Fund
+# --- fintech & payments & data
+Revolut
+Wise
+Monzo
+Starling Bank
+Zopa
+OakNorth
+Allica Bank
+ClearBank
+Thought Machine
+Checkout.com
+GoCardless
+Paddle
+Tide
+Lendable
+Copper
+Blockchain.com
+Kraken
+Galaxy Digital
+Ripple
+Bloomberg
+FactSet
+Preqin
+PitchBook
+Moody's
+S&P Global
+LSEG
+ICE
+Tradeweb
+AJ Bell
+Hargreaves Lansdown
+Interactive Investor
+Nutmeg
+Moneybox
+Plum
+Freetrade
+Trading 212
+eToro
+IG Group
+CMC Markets
+Plus500
+XTB
+Flutter
+Airwallex
+Adyen
+Stripe
+Klarna
+SumUp
+Pleo
+Zilch
+Curve
+Monese
+Atom Bank
+Tandem Bank
+Chetwood
+Zopa Bank
+LendInvest
+Funding Circle
+iwoca
+Marqeta
+Form3
+Yapily
+TrueLayer
+Plaid
+Codat
+Cleo
+Snoop
+Chip
+Wealthify
+Wagestream
+Onfido
+ComplyAdvantage
+Quantexa
+Featurespace
+Napier
+# --- Hong Kong / China / Australia focused
+CLSA
+Haitong International
+CICC
+Jefferies Hong Kong
+BOCI
+Guotai Junan
+Huatai
+China Renaissance
+Nomura
+Daiwa
+Mizuho Securities Asia
+SMBC Nikko
+Natixis
+Societe Generale
+BNP Paribas
+Credit Agricole
+ING
+ABN AMRO
+Rabobank
+DBS
+OCBC
+UOB
+Bank of China
+ICBC
+HSBC Asset Management
+Value Partners
+Hillhouse
+Primavera Capital
+Boyu Capital
+Hopu Investments
+PAG
+Baring Private Equity Asia
+Affinity Equity Partners
+Navis Capital
+Macquarie Asset Management
+Barrenjoey
+Jarden
+Wilsons
+Ord Minnett
+Bell Potter
+Canaccord Australia
+Shaw and Partners
+Morgans Financial
+Euroz Hartleys
+Pendal
+Magellan Financial
+Platinum Asset Management
+Perpetual
+Challenger
+IFM Investors
+QIC
+Future Fund
+Hostplus
+Aware Super
+Cbus
+UniSuper
+Rest Super
+Australian Retirement Trust
+Allens
+Herbert Smith Freehills
+Suncorp
+QBE
+IAG
+Medibank
+Computershare
+Link Group
+Iress
+Xero
+Afterpay
+Zip Co
+Tyro
+Judo Bank
+Bendigo Bank
+Bank of Queensland
+AMP
+Insignia Financial
+Colonial First State

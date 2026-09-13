@@ -16,6 +16,7 @@ from .morganstanley import MorganStanleyAdapter
 from .oracle import OracleAdapter
 from .phenom import PhenomAdapter
 from .radancy import RadancyAdapter
+from .smallats import AshbyAdapter, SmartRecruitersAdapter, WorkableAdapter
 from .successfactors import SuccessFactorsAdapter
 from .taleo import TaleoAdapter
 from .workday import WorkdayAdapter
@@ -36,6 +37,9 @@ ADAPTERS = {
     "kpmg": KpmgAdapter,
     "successfactors": SuccessFactorsAdapter,
     "avature": AvatureAdapter,
+    "smartrecruiters": SmartRecruitersAdapter,
+    "ashby": AshbyAdapter,
+    "workable": WorkableAdapter,
 }
 
 

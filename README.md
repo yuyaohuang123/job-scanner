@@ -23,10 +23,9 @@ three lines of config, not a new scraper.
 
 ## Status
 
-**76 firms verified and enabled** across eleven platforms. At setup the scan
-returned 449 internship and placement listings -- 49 of them industrial /
-year-long placements -- across the UK, China mainland, Hong Kong and
-Australia.
+**124 firms verified and enabled** across fourteen platforms. The scan returns
+~450 internship and placement listings -- ~50 of them industrial / year-long
+placements -- across the UK, China mainland, Hong Kong and Australia.
 
 Every bulge-bracket bank has a working adapter: Goldman Sachs (GraphQL),
 J.P. Morgan (Oracle), Morgan Stanley (campus feed), Citi (Radancy), Bank of
@@ -52,12 +51,14 @@ evergreen role types with no deadlines. Check mckinsey.com/careers by hand.
 | Taleo Enterprise | `taleo.py` | UBS |
 | SuccessFactors | `successfactors.py` | EY |
 | Avature | `avature.py` | Deloitte UK |
+| SmartRecruiters / Ashby / Workable | `smallats.py` | smaller firms: Vitol, Lendable, Zopa, OakNorth, L&G, TP ICAP, fintechs |
 | Firm-specific | `goldman.py`, `morganstanley.py`, `bofa.py`, `hsbc.py`, `bain.py`, `kpmg.py` | as named |
 
 ## Discovery tools
 
 ```bash
 python tools/probe_boards.py hits.json     # guess Greenhouse/Lever slugs in bulk
+python tools/probe_small.py names.txt hits.json  # five lightweight ATSs, slugs from names, owner-checked
 python tools/verify_workday.py hits.json   # verify Workday tenants, emit config
 python -m scanner.discover <careers URL>   # one firm from its careers URL
 ```

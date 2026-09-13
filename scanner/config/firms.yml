@@ -523,3 +523,44 @@ firms:
   - { name: Five Rings,    tier: Trading & Quant, platform: greenhouse, enabled: true, board: fiveringsllc }
   - { name: Forvis Mazars, tier: Accounting,      platform: greenhouse, enabled: true, board: forvismazars }
   - { name: Elixirr,       tier: Consulting,      platform: greenhouse, enabled: true, board: elixirr }
+
+  # ================================================ Batch 3: smaller firms (2026-09-13)
+  # Found by tools/probe_small.py across Greenhouse / Lever / SmartRecruiters /
+  # Ashby / Workable. Board owners checked; generic slugs that belonged to
+  # unrelated companies (arena, atlas, capital, morgans, ...) were rejected.
+  - { name: Vitol,                        tier: Trading & Quant, platform: smartrecruiters, enabled: true, board: vitol }
+  - { name: Quantbot Technologies,        tier: Trading & Quant, platform: greenhouse,      enabled: true, board: quantbot-technologies }
+  - { name: Engineers Gate,               tier: Trading & Quant, platform: greenhouse,      enabled: true, board: engineersgate }
+  - { name: Eclipse Trading,              tier: Trading & Quant, platform: greenhouse,      enabled: true, board: eclipsetrading }
+  - { name: Wincent,                      tier: Trading & Quant, platform: ashby,           enabled: true, board: wincent }
+  - { name: Teza Technologies,            tier: Trading & Quant, platform: ashby,           enabled: true, board: teza-technologies }
+  - { name: Pharo Management,             tier: Buy-Side,        platform: greenhouse,      enabled: true, board: pharomanagement }
+  - { name: Capstone Investment Advisors, tier: Buy-Side,        platform: greenhouse,      enabled: true, board: capstoneinvestmentadvisors }
+  - { name: TP ICAP,                      tier: Markets & Broking, platform: smartrecruiters, enabled: true, board: tpicap }
+  - { name: Tradition,                    tier: Markets & Broking, platform: smartrecruiters, enabled: true, board: tradition }
+  - { name: Stifel,                       tier: Middle Market,   platform: smartrecruiters, enabled: true, board: stifel }
+  - { name: Legal & General,              tier: Insurance,       platform: smartrecruiters, enabled: true, board: legalandgeneral }
+  - { name: Evelyn Partners,              tier: Accounting,      platform: smartrecruiters, enabled: true, board: evelynpartners }
+  - { name: Chatham Financial,            tier: Buy-Side,        platform: smartrecruiters, enabled: true, board: chathamfinancial }
+  - { name: Judo Bank,                    tier: Australia,       platform: smartrecruiters, enabled: true, board: judobank }
+  - { name: Zopa,                         tier: UK Banking,      platform: lever,           enabled: true, board: zopa }
+  - { name: OakNorth,                     tier: UK Banking,      platform: ashby,           enabled: true, board: oaknorth }
+  - { name: Allica Bank,                  tier: UK Banking,      platform: ashby,           enabled: true, board: allica-bank }
+  - { name: ClearBank,                    tier: UK Banking,      platform: ashby,           enabled: true, board: clearbank }
+  - { name: Lendable,                     tier: UK Banking,      platform: ashby,           enabled: true, board: lendable }
+  - { name: Monzo,                        tier: Fintech,         platform: greenhouse,      enabled: true, board: monzo }
+  - { name: Tide,                         tier: Fintech,         platform: greenhouse,      enabled: true, board: tide }
+  - { name: SumUp,                        tier: Fintech,         platform: greenhouse,      enabled: true, board: sumup }
+  - { name: GoCardless,                   tier: Fintech,         platform: greenhouse,      enabled: true, board: gocardless }
+  - { name: Form3,                        tier: Fintech,         platform: greenhouse,      enabled: true, board: form3 }
+  - { name: TrueLayer,                    tier: Fintech,         platform: greenhouse,      enabled: true, board: truelayer }
+  - { name: Adyen,                        tier: Fintech,         platform: greenhouse,      enabled: true, board: adyen }
+  - { name: ComplyAdvantage,              tier: Fintech,         platform: greenhouse,      enabled: true, board: complyadvantage }
+  - { name: Freetrade,                    tier: Fintech,         platform: ashby,           enabled: true, board: freetrade }
+  - { name: Funding Circle,               tier: Fintech,         platform: ashby,           enabled: true, board: fundingcircle }
+  - { name: Trading 212,                  tier: Fintech,         platform: ashby,           enabled: true, board: trading212 }
+  - { name: Airwallex,                    tier: Fintech,         platform: ashby,           enabled: true, board: airwallex }
+  - { name: Zilch,                        tier: Fintech,         platform: ashby,           enabled: true, board: zilch }
+  - { name: Quantexa,                     tier: Fintech,         platform: ashby,           enabled: true, board: quantexa }
+  - { name: Thought Machine,              tier: Fintech,         platform: ashby,           enabled: true, board: thought-machine }
+  - { name: Xero,                         tier: Fintech,         platform: ashby,           enabled: true, board: xero }
