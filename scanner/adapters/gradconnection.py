@@ -56,10 +56,17 @@ class GradConnectionAdapter:
                 new = 0
                 for card in cards:
                     posting = self._parse(card)
-                    if posting and posting["source_id"] not in seen:
-                        seen.add(posting["source_id"])
-                        new += 1
-                        yield posting
+                    if not posting:
+                        continue
+                    # GradConnection runs one campaign per target university,
+                    # so Citadel Securities appears 34 times for four roles.
+                    # Collapse on employer + title and keep the first.
+                    dedupe_key = posting["title"].lower()
+                    if posting["source_id"] in seen or dedupe_key in seen:
+                        continue
+                    seen.add(posting["source_id"]); seen.add(dedupe_key)
+                    new += 1
+                    yield posting
                 if not cards or new == 0 or len(cards) < 20:
                     break
                 time.sleep(self.delay)
