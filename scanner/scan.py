@@ -128,9 +128,13 @@ def run(config, only_firm=None, dry_run=False):
         print("\n(dry run: nothing written)")
         return 0
 
+    # Order matters. On 2026-09-13 the site writer crashed on a bad date and
+    # the digest payload was never written, so 267 new listings were saved to
+    # the store but never emailed. Persist the store, then the digest payload,
+    # and only then render the site -- the least important output goes last.
     store.save(STORE_PATH, current)
-    write_site_data(current)
     write_digest_payload(new_items, closed_items, errors, per_firm_counts)
+    write_site_data(current)
     print(f"\nwrote {STORE_PATH}")
     print(f"wrote {SITE_DATA_PATH}")
     return 0
