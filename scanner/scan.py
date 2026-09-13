@@ -33,8 +33,14 @@ def load_config(path=CONFIG_PATH):
         return yaml.safe_load(handle)
 
 
-def scan_firm(firm, session, delay):
-    """Return (postings, error). Postings are already filtered to our criteria."""
+def scan_firm(firm, session, delay, known=None):
+    """Return (postings, error). Postings are already filtered to our criteria.
+
+    `known` maps listing keys to records already in the store; a posting whose
+    location was resolved on a previous run reuses it rather than fetching the
+    detail page again (GradConnection would otherwise cost ~140 fetches a day).
+    """
+    known = known or {}
     adapter = build_adapter(firm, session=session, delay=delay)
     if adapter is None:
         return [], f"no adapter for platform {firm.get('platform')!r}"
@@ -55,7 +61,12 @@ def scan_firm(firm, session, delay):
             continue
 
         if posting.get("location_is_vague"):
-            posting = adapter.resolve_location(posting)
+            prior = known.get(store.listing_key(firm["name"], posting))
+            if prior and prior.get("location") and not prior.get("location_is_vague"):
+                posting["location"] = prior["location"]
+                posting["location_is_vague"] = False
+            else:
+                posting = adapter.resolve_location(posting)
 
         ok, category, region = filters.keep(posting)
         if not ok:
@@ -89,9 +100,10 @@ def run(config, only_firm=None, dry_run=False):
 
     skipped = [f["name"] for f in config.get("firms", []) if not f.get("enabled")]
 
+    known = store.load(STORE_PATH)["listings"]
     for firm in firms:
         print(f"-> {firm['name']} ({firm.get('platform')})", flush=True)
-        postings, error = scan_firm(firm, session, delay)
+        postings, error = scan_firm(firm, session, delay, known)
 
         if error:
             errors.append((firm["name"], error))
