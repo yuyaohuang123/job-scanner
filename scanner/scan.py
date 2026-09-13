@@ -128,9 +128,10 @@ def run(config, only_firm=None, dry_run=False):
         print("\n(dry run: nothing written)")
         return 0
 
+    closing = store.closing_soon(current)
     store.save(STORE_PATH, current)
     write_site_data(current)
-    write_digest_payload(new_items, closed_items, errors, per_firm_counts)
+    write_digest_payload(new_items, closed_items, errors, per_firm_counts, closing)
     print(f"\nwrote {STORE_PATH}")
     print(f"wrote {SITE_DATA_PATH}")
     return 0
@@ -196,10 +197,11 @@ def write_site_data(current):
         handle.write(";\n")
 
 
-def write_digest_payload(new_items, closed_items, errors, per_firm_counts):
+def write_digest_payload(new_items, closed_items, errors, per_firm_counts, closing=None):
     payload = {
         "new": new_items,
         "closed": closed_items,
+        "closing_soon": closing or [],
         "errors": [{"firm": n, "error": e} for n, e in errors],
         "counts": per_firm_counts,
     }

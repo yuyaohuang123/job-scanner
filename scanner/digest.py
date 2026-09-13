@@ -42,15 +42,18 @@ def load_digest(path=DIGEST_PATH):
 def render(payload):
     """Return (subject, text_body, html_body) or None if nothing worth sending."""
     new_items = payload.get("new") or []
+    closing = payload.get("closing_soon") or []
     errors = payload.get("errors") or []
 
-    if not new_items and not errors:
+    if not new_items and not closing and not errors:
         return None
 
+    parts = []
     if new_items:
-        subject = f"{len(new_items)} new internship listing(s)"
-    else:
-        subject = f"Scan problem: {len(errors)} firm(s) failed"
+        parts.append(f"{len(new_items)} new listing(s)")
+    if closing:
+        parts.append(f"{len(closing)} closing within 7 days")
+    subject = ", ".join(parts) if parts else f"Scan problem: {len(errors)} firm(s) failed"
 
     text_lines = []
     html_parts = [
@@ -90,6 +93,36 @@ def render(payload):
                     f"{html.escape(item.get('location', ''))}</div>"
                     "</div>"
                 )
+
+    if closing:
+        # Sent once per listing, the day it enters the 7-day window -- see
+        # store.closing_soon(). A daily nag until the deadline would train
+        # you to ignore it.
+        text_lines.append("\nClosing within 7 days")
+        text_lines.append("---------------------")
+        html_parts.append(
+            "<h2 style=\"font-size:15px;margin:18px 0 8px;color:#b8862c;\">Closing within 7 days</h2>"
+        )
+        for item in closing:
+            days = item.get("days_left", 0)
+            when = "today" if days == 0 else ("tomorrow" if days == 1 else f"in {days} days")
+            text_lines.append(f"  {item['firm']} - {item['title']}")
+            text_lines.append(f"    closes {item['close_date'][:10]} ({when})")
+            if item.get("url"):
+                text_lines.append(f"    {item['url']}")
+            title = html.escape(item["title"])
+            link = html.escape(item.get("url", ""))
+            html_parts.append(
+                "<div style=\"margin:0 0 12px;padding:10px 12px;border:1px solid #e0b34d;"
+                "border-radius:8px;background:#fbf0dc;\">"
+                f"<div style=\"font-weight:700;\">{html.escape(item['firm'])}</div>"
+                f"<div style=\"margin:2px 0;\">"
+                + (f"<a href=\"{link}\">{title}</a>" if link else title)
+                + "</div>"
+                f"<div style=\"color:#b8862c;font-size:12.5px;font-weight:600;\">"
+                f"Closes {html.escape(item['close_date'][:10])} ({when})</div>"
+                "</div>"
+            )
 
     if errors:
         text_lines.append("\nFirms that failed to scan:")

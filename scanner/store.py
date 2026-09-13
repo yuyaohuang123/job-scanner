@@ -8,7 +8,7 @@ history in git if we ever want to know when something changed.
 
 import json
 import os
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
 STORE_VERSION = 1
 
@@ -97,3 +97,27 @@ def reconcile(store, scanned, scanned_firms):
 
 def open_listings(store):
     return [r for r in store["listings"].values() if r.get("status") == "open"]
+
+
+def closing_soon(store, within_days=7):
+    """Open listings whose close date falls in the next `within_days`.
+
+    Each is flagged so it's reported once, when it first enters the window,
+    rather than every morning until the deadline.
+    """
+    today = date.today()
+    found = []
+    for record in open_listings(store):
+        close = record.get("close_date")
+        if not close or record.get("deadline_warned"):
+            continue
+        try:
+            close_day = date.fromisoformat(close[:10])
+        except ValueError:
+            continue
+        days_left = (close_day - today).days
+        if 0 <= days_left <= within_days:
+            record["deadline_warned"] = True
+            record["days_left"] = days_left
+            found.append(record)
+    return sorted(found, key=lambda r: r["close_date"])
