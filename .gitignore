@@ -23,3 +23,6 @@ data/dryrun4.txt
 data/small_hits.json
 data/new_listings.md
 data/unsent_listings.md
+data/gc*.html
+data/gc_dry.txt
+data/dryrun5.txt

@@ -564,3 +564,22 @@ firms:
   - { name: Quantexa,                     tier: Fintech,         platform: ashby,           enabled: true, board: quantexa }
   - { name: Thought Machine,              tier: Fintech,         platform: ashby,           enabled: true, board: thought-machine }
   - { name: Xero,                         tier: Fintech,         platform: ashby,           enabled: true, board: xero }
+
+  # ============================================================== Australia
+  - name: GradConnection (AU)
+    tier: Australia
+    platform: gradconnection
+    enabled: true
+    # Australia's national student-jobs aggregator (robots.txt allows it).
+    # Covers CommBank, Westpac, NAB, ANZ, Macquarie, the Big 4 AU, super
+    # funds and quant shops in one place, with closing dates and an
+    # "accepts international" flag. The AU cycle peaks March-July.
+
+  - name: CommBank
+    tier: Australia
+    platform: workday
+    enabled: true
+    host: cba.wd3.myworkdayjobs.com
+    tenant: cba
+    site: CommBank_Careers
+    # 2026/27 Summer Intern Program had closed by setup; here for 2027/28.

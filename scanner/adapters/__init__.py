@@ -8,6 +8,7 @@ from .avature import AvatureAdapter
 from .bain import BainAdapter
 from .bofa import BofaAdapter
 from .goldman import GoldmanAdapter
+from .gradconnection import GradConnectionAdapter
 from .greenhouse import GreenhouseAdapter
 from .hsbc import HsbcAdapter
 from .kpmg import KpmgAdapter
@@ -40,6 +41,7 @@ ADAPTERS = {
     "smartrecruiters": SmartRecruitersAdapter,
     "ashby": AshbyAdapter,
     "workable": WorkableAdapter,
+    "gradconnection": GradConnectionAdapter,
 }
 
 
