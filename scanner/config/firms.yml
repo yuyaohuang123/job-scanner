@@ -439,3 +439,87 @@ firms:
 
   - { name: Stripe,   tier: Payments & Markets, platform: greenhouse, enabled: true, board: stripe }
   - { name: Coinbase, tier: Payments & Markets, platform: greenhouse, enabled: true, board: coinbase }
+
+
+  # ======================================================= Batch 2 (2026-09-13)
+  - name: Baillie Gifford
+    tier: Asset Management
+    platform: workday
+    enabled: true
+    host: bailliegifford.wd3.myworkdayjobs.com
+    tenant: bailliegifford
+    site: BaillieGiffordEarlyCareers
+    # Dedicated early-careers site; empty until their cycle opens.
+
+  - name: abrdn
+    tier: Asset Management
+    platform: workday
+    enabled: true
+    host: abrdn.wd3.myworkdayjobs.com
+    tenant: abrdn
+    site: abrdn
+
+  - name: M&G
+    tier: Asset Management
+    platform: workday
+    enabled: true
+    host: mgpru.wd3.myworkdayjobs.com
+    tenant: mgpru
+    site: mandgprudential
+
+  - name: Aviva
+    tier: Insurance
+    platform: workday
+    enabled: true
+    host: aviva.wd1.myworkdayjobs.com
+    tenant: aviva
+    site: External
+
+  - name: Santander
+    tier: UK Banking
+    platform: workday
+    enabled: true
+    host: santander.wd3.myworkdayjobs.com
+    tenant: santander
+    site: SantanderCareers
+    passes:
+      - workerSubType: ["c26ab0efcb8401233f6601097836b01a"]
+      - locationCountry: ["6cb77610a8a543aea2d6bc10457e35d4", "d4afdeb461d446e4babd204bd102dba8", "29247e57dbaf46fb855b224e03170bc7"]
+    # Global tenant; country facet narrows 989 roles.
+
+  - name: PwC (global campus)
+    tier: Big 4
+    platform: workday
+    enabled: true
+    host: pwc.wd3.myworkdayjobs.com
+    tenant: pwc
+    site: Global_Campus_Careers
+    passes:
+      - workerSubType: ["e57e6863118d01e8c8ee4356e52a5e2d", "e57e6863118d01ccc3941a45322bfba2"]
+    # Global campus site (mostly US); intern facet applied. UK student roles are on the Phenom board.
+
+  - name: Apollo
+    tier: Buy-Side
+    platform: workday
+    enabled: true
+    host: athene.wd5.myworkdayjobs.com
+    tenant: athene
+    site: Apollo_Careers
+    # 2027 Summer Analyst postings appear here (London ones seen in search).
+
+  - name: Oliver Wyman
+    tier: Consulting
+    platform: workday
+    enabled: true
+    host: mmc.wd1.myworkdayjobs.com
+    tenant: mmc
+    site: MMC
+    passes:
+      - workerSubType: ["840296504fcf01ec4132442dab4aa60e"]
+      - Location_Country: ["29247e57dbaf46fb855b224e03170bc7", "d903bb3fedad45039383f6de334ad4db", "d4afdeb461d446e4babd204bd102dba8", "6cb77610a8a543aea2d6bc10457e35d4"]
+    # Marsh McLennan tenant; HK, Shanghai and Beijing summer interns seen.
+
+  - { name: EQT,           tier: Buy-Side,        platform: greenhouse, enabled: true, board: eqtpartners }
+  - { name: Five Rings,    tier: Trading & Quant, platform: greenhouse, enabled: true, board: fiveringsllc }
+  - { name: Forvis Mazars, tier: Accounting,      platform: greenhouse, enabled: true, board: forvismazars }
+  - { name: Elixirr,       tier: Consulting,      platform: greenhouse, enabled: true, board: elixirr }

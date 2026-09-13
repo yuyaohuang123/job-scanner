@@ -144,27 +144,36 @@ def summarise(jobs, platform):
     return intern_titles
 
 
-hits = {}
-for name, slugs in CANDIDATES.items():
-    for slug in slugs:
-        for platform, fn in (("greenhouse", probe_greenhouse), ("lever", probe_lever)):
-            try:
-                jobs = fn(slug)
-            except requests.RequestException:
-                jobs = None
-            if jobs is None:
-                continue
-            interns = summarise(jobs, platform)
-            in_region = [t for t in interns if t[2]]
-            hits[name] = {"platform": platform, "slug": slug, "total": len(jobs),
-                          "interns": len(interns), "in_region": len(in_region),
-                          "samples": in_region[:3] or interns[:2]}
-            print(f"HIT  {name:<26} {platform:<10} {slug:<24} jobs={len(jobs):<4} "
-                  f"interns={len(interns):<3} in-region={len(in_region)}", flush=True)
-            break
-        if name in hits:
-            break
-        time.sleep(0.3)
 
-print("\n=== DONE:", len(hits), "hits of", len(CANDIDATES), "candidates ===")
-json.dump(hits, open(sys.argv[1], "w"), indent=2, default=str)
+def run(candidates, out_path=None):
+    hits = {}
+    for name, slugs in candidates.items():
+        for slug in slugs:
+            for platform, fn in (("greenhouse", probe_greenhouse), ("lever", probe_lever)):
+                try:
+                    jobs = fn(slug)
+                except requests.RequestException:
+                    jobs = None
+                if jobs is None:
+                    continue
+                interns = summarise(jobs, platform)
+                in_region = [t for t in interns if t[2]]
+                hits[name] = {"platform": platform, "slug": slug, "total": len(jobs),
+                              "interns": len(interns), "in_region": len(in_region),
+                              "samples": in_region[:3] or interns[:2]}
+                print(f"HIT  {name:<26} {platform:<10} {slug:<24} jobs={len(jobs):<4} "
+                      f"interns={len(interns):<3} in-region={len(in_region)}", flush=True)
+                break
+            if name in hits:
+                break
+            time.sleep(0.3)
+
+    print("\n=== DONE:", len(hits), "hits of", len(CANDIDATES), "candidates ===")
+    if out_path:
+        json.dump(hits, open(out_path, "w"), indent=2, default=str)
+    return hits
+
+
+
+if __name__ == "__main__":
+    run(CANDIDATES, sys.argv[1] if len(sys.argv) > 1 else None)
