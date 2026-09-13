@@ -7,10 +7,20 @@ Lever exposes postings as plain JSON:
 Verified working against a live board during setup.
 """
 
+from datetime import datetime, timezone
+
 import requests
 
 REQUEST_TIMEOUT = 30
 HEADERS = {"Accept": "application/json", "User-Agent": "job-tracker/1.0"}
+
+
+def _epoch_ms_to_date(value):
+    """Lever timestamps are epoch milliseconds (an int), not ISO strings."""
+    try:
+        return datetime.fromtimestamp(int(value) / 1000, tz=timezone.utc).date().isoformat()
+    except (TypeError, ValueError, OSError):
+        return ""
 
 
 class LeverAdapter:
@@ -33,7 +43,7 @@ class LeverAdapter:
                 "title": raw.get("text") or "",
                 "url": raw.get("hostedUrl") or "",
                 "location": categories.get("location") or "",
-                "posted_on": raw.get("createdAt") or "",
+                "posted_on": _epoch_ms_to_date(raw.get("createdAt")),
                 "time_type": categories.get("commitment") or "",
                 "worker_sub_type": categories.get("commitment") or "",
                 "location_is_vague": False,

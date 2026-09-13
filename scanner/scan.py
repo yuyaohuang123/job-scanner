@@ -137,8 +137,14 @@ def run(config, only_firm=None, dry_run=False):
 
 
 def _looks_like_date(value):
-    """True for ISO-ish dates. Workday gives 'Posted Today'; Oracle gives 2026-09-12."""
-    return bool(value) and len(value) >= 10 and value[4] == "-" and value[7] == "-"
+    """True for ISO-ish date strings. Workday gives 'Posted Today'; Oracle
+    gives 2026-09-12; Lever once gave an integer, which took the run down."""
+    return (
+        isinstance(value, str)
+        and len(value) >= 10
+        and value[4] == "-"
+        and value[7] == "-"
+    )
 
 
 def write_site_data(current):
