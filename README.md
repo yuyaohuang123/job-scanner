@@ -73,7 +73,19 @@ python tools/probe_boards.py hits.json     # guess Greenhouse/Lever slugs in bul
 python tools/probe_small.py names.txt hits.json  # five lightweight ATSs, slugs from names, owner-checked
 python tools/verify_workday.py hits.json   # verify Workday tenants, emit config
 python -m scanner.discover <careers URL>   # one firm from its careers URL
+python tools/discover_workday.py names.txt hits.json  # tenant + site from a firm NAME
 ```
+
+`discover_workday.py` resolves a Workday tenant from the company name alone.
+Site ids can't be guessed blind, but the search factors cheaply: a
+`{slug}.{wdN}.myworkdayjobs.com` host only resolves in DNS when that pairing is
+real, so hundreds of combinations are sieved with no HTTP at all; then against
+a live tenant the CXS endpoint cleanly separates a wrong site (404 naming
+`Job_Posting_Site_ID`) from a right one. A hit is only reported once the board
+actually returns postings. Recall is partial -- it won't find a tenant whose
+slug doesn't resemble the name (Airbus is `ag`) or whose site id is a one-off
+(`External_Career_Site_Barclays`) -- so a miss means hunt that one by hand, not
+that the firm isn't on Workday.
 
 `verify_workday.py` also discovers each tenant's facets. That matters: a
 1,900-role board like Wells Fargo can't be read in full every day, but the
