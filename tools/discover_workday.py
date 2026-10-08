@@ -6,9 +6,14 @@ Site ids cannot be guessed blind -- that was established early on, when every
 obvious candidate missed against a known tenant. But the search space is far
 smaller than it looks, because it factors into three cheap steps:
 
-1. Tenant + data centre. `{slug}.{wdN}.myworkdayjobs.com` only resolves in DNS
-   when that pairing is real, so a few hundred name/centre combinations can be
-   sieved with no HTTP traffic at all.
+1. Tenant + data centre. One request to a deliberately bogus site id tells
+   them apart: a real tenant answers 404 naming `Job_Posting_Site_ID`, while a
+   tenant that doesn't exist answers 422 with an empty message.
+
+   (DNS is NOT usable for this, which cost me an hour: *.myworkdayjobs.com is
+   a wildcard, so nonsense12345.wd3.myworkdayjobs.com resolves perfectly
+   happily. An earlier version of this tool sieved on DNS, let everything
+   through, and brute-forced site ids against every guess.)
 2. Site id. Against a live tenant the CXS endpoint answers 404 with a
    `Job_Posting_Site_ID` message for a wrong site and 200 for a right one, so a
    candidate list settles it in a handful of requests. Most tenants use one of
@@ -69,24 +74,28 @@ def slug_variants(name):
     return out[:3]
 
 
-def _resolves(host):
+BOGUS_SITE = "ZZZNotARealSite"
+
+
+def _tenant_exists(candidate):
+    """One request: 404 naming Job_Posting_Site_ID means the tenant is real."""
+    host, slug = candidate
     try:
-        socket.gethostbyname(host)
-        return True
-    except (socket.gaierror, UnicodeError):
+        r = requests.post(
+            f"https://{host}/wday/cxs/{slug}/{BOGUS_SITE}/jobs",
+            json={"appliedFacets": {}, "limit": 1, "offset": 0, "searchText": ""},
+            headers=HEADERS, timeout=15,
+        )
+    except requests.RequestException:
         return False
+    return r.status_code == 404 and "Job_Posting_Site_ID" in r.text
 
 
 def find_hosts(name, pool):
-    """Return hosts that exist in DNS for this firm's likely tenant slugs.
-
-    Run concurrently: a miss costs a full NXDOMAIN round trip, and there are
-    tens of candidates per firm, so doing these in series takes minutes per
-    name.
-    """
+    """Return (host, tenant) pairs whose tenant actually exists."""
     candidates = [(f"{slug}.{dc}.myworkdayjobs.com", slug)
                   for slug in slug_variants(name) for dc in DATA_CENTRES]
-    results = pool.map(lambda c: _resolves(c[0]), candidates)
+    results = pool.map(_tenant_exists, candidates)
     return [c for c, ok in zip(candidates, results) if ok]
 
 
@@ -120,7 +129,7 @@ def find_site(host, tenant, session):
 def run(names, out_path=None):
     session = requests.Session()
     hits = []
-    pool = ThreadPoolExecutor(max_workers=24)
+    pool = ThreadPoolExecutor(max_workers=8)
     for name in names:
         for host, tenant in find_hosts(name, pool):
             site, total = find_site(host, tenant, session)

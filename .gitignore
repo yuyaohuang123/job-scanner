@@ -32,3 +32,6 @@ data/corp_workday.json
 data/bmw.html
 data/dry_region.txt
 data/corporate_finds.md
+data/corp*.json
+data/corp_verify2.txt
+data/dry_final.txt

@@ -709,3 +709,217 @@ firms:
     site: unilever_early_careers
     # ULIP / Industrial Placement Programme, incl. Finance.
 
+
+  - name: Centrica
+    tier: Corporate - Energy
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: centrica.wd3.myworkdayjobs.com
+    tenant: centrica
+    site: Centrica
+    # British Gas parent; UK energy finance placements appear here.
+
+  - name: Salesforce
+    tier: Corporate - Tech
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: salesforce.wd12.myworkdayjobs.com
+    tenant: salesforce
+    site: External_Career_Site
+    passes:
+      - workerSubType: ["3a910852b2c31010f48d2cefdccd0000"]
+      - locations: ["1038e944b110101245401e1a3a8b0000", "7c2d3bf197461001811fa18b22bb0000", "1038e944b1101012453f3edd3baa0000", "1038e944b1101012453a1dd4253c0000", "1038e944b1101012453c268509220000", "1038e944b1101012453aa714c1510000", "26e99ef44f7b1005bacbf00731000000"]
+    # 6 finance-function early-careers roles on the global board.
+
+
+  # ------------------------- Corporates, round 2 (discover_workday.py)
+
+  - name: Boeing
+    tier: Corporate - Aerospace
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: boeing.wd1.myworkdayjobs.com
+    tenant: boeing
+    site: External_Careers
+    passes:
+      - workerSubType: ["dcf0a31f3b411000ba18b737ca570000", "8b618a30e00f01dbf217e9650c3fc507"]
+      - locationCountry: ["d903bb3fedad45039383f6de334ad4db", "6cb77610a8a543aea2d6bc10457e35d4", "29247e57dbaf46fb855b224e03170bc7"]
+    # Two UK 12-month finance placements in Bristol at time of adding.
+
+  - name: Cisco
+    tier: Corporate - Tech
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: cisco.wd5.myworkdayjobs.com
+    tenant: cisco
+    site: Cisco_Careers
+    passes:
+      - workerSubType: ["a5e1942e7b2c01c6907030106001b700"]
+      - locations: ["3e81422748f91001f501b5ed65620000", "0696c83bbe641001f4ed3307f70d0000", "662e524adea41001f4cf09b6e8970000", "026fa05becb01001f514fe3978be0000", "1cf8ea09530d1001f4d6fd97cb6d0000", "1cf8ea09530d1001f4ce888d41680000", "3419053a4e7d1001f4eba0e97e5c0000", "5475bb0bd5531001f7cca19a9c280000", "1cf8ea09530d1001f4d6174c39d70000", "3419053a4e7d1001f4ec76314e190000", "ef8a5a22403d1001f4fd868f56420000", "3419053a4e7d1001f4fe8eb495610000", "3e81422748f91001f50a0d447c2d0000", "0696c83bbe641001f4ffbae388e80000", "1cf8ea09530d1001f4d688fb31670000", "5475bb0bd5531001f7e45d2fed200000", "3dbd26f9e73e1001f4d566149c500000", "711bab74a75d1001f4fc300dc2f70000", "3dbd26f9e73e1001f4e5cfa45b370000", "662e524adea41001f4df9d12299e0000", "3dbd26f9e73e1001f4dda703103e0000", "3e81422748f91001f4fd302852710000", "3419053a4e7d1001f4eac81fa90d0000", "6bed8334bf4b1001f4ed5dc205990000", "1cf8ea09530d1001f4cfdbbbfdd20000", "662e524adea41001f4d6f80c49380000", "0696c83bbe641001f4ec778887520000", "3dbd26f9e73e1001f4d4ce10a90c0000", "711bab74a75d1001f4fd1b4adc290000", "662e524adea41001f4d966e4a9a20000", "711bab74a75d1001f4ffa005ab040000", "1cf8ea09530d1001f4c962fc73780000", "202bf7dfec311001f4c84720644f0000"]
+
+  - name: ConvaTec
+    tier: Corporate - Healthcare
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: convatec.wd1.myworkdayjobs.com
+    tenant: convatec
+    site: Convatec
+
+  - name: Dyson
+    tier: Corporate - Industrials
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: dyson.wd3.myworkdayjobs.com
+    tenant: dyson
+    site: Dyson_Careers
+    passes:
+      - workerSubType: ["27857390d7b201d2a224582230010f02", "2dac528ca3c41001c98ee8b874260000"]
+      - locations: ["69140e7ce46f01abb326f728e401b458", "5220c84c197d0101eaa43e3b70780000", "27857390d7b201198f8ab0873601f817", "27857390d7b2016bbb1337843601b712", "27857390d7b2013c24a5478536012914", "1c37b2b72944100140084dfeecea0000", "27857390d7b201afc240868536019214", "27857390d7b201bd0be1418536011f14", "27857390d7b201ffccd267843601f812", "9e0ea784222a10018c749de137560000", "27857390d7b2016a7fb439843601bc12", "dda5efee4da4014f58ad64174501ebdf", "27857390d7b2012a27a4788436011b13"]
+
+  - name: GSK
+    tier: Corporate - Pharma
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: gsk.wd5.myworkdayjobs.com
+    tenant: gsk
+    site: GskCareers
+    passes:
+      - workerSubType: ["8e8967868c201068ec2923fce22c89b2", "e2abf442e93a101605cab1439a9fca52"]
+      - Location_Country: ["29247e57dbaf46fb855b224e03170bc7", "d903bb3fedad45039383f6de334ad4db", "6cb77610a8a543aea2d6bc10457e35d4", "d4afdeb461d446e4babd204bd102dba8"]
+    # 6 finance-function early-careers roles; UK cycle opens later.
+
+  - name: Hitachi
+    tier: Corporate - Industrials
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: hitachi.wd1.myworkdayjobs.com
+    tenant: hitachi
+    site: Hitachi
+    passes:
+      - workerSubType: ["44d3f33caa03108fe3d8f48734e74836", "17bb00ff6cdf10154952112fe37c0000", "17bb00ff6cdf1015495211c962190000"]
+      - locationCountry: ["d903bb3fedad45039383f6de334ad4db", "6cb77610a8a543aea2d6bc10457e35d4", "d4afdeb461d446e4babd204bd102dba8", "29247e57dbaf46fb855b224e03170bc7"]
+    # Finance Intern in Beijing.
+
+  - name: Intel
+    tier: Corporate - Tech
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: intel.wd1.myworkdayjobs.com
+    tenant: intel
+    site: External
+    passes:
+      - workerSubType: ["dc8bf79476611087dfde99931439ae75"]
+
+  - name: Maersk
+    tier: Corporate - Logistics
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: maersk.wd3.myworkdayjobs.com
+    tenant: maersk
+    site: Maersk_Careers
+    passes:
+      - locations: ["ddba4775944910009e27e530d10c0000", "7b88c76f001e10009e1ae55fcfe70000", "cef188fb758d10009e0422e6e6080000", "15350d48499210009e164dd81ef10000", "5fb6db3471ab10009e1f09282b670000", "26c4d72049dc10009e12ce9539980000", "4fe5063677f81000fe77646f96460000", "9de49f588a0f10009e31d93842160000", "853120f5cc8a10009e25f0a4938e0000", "26c4d72049dc10009e2360e329eb0000", "ddba4775944910009e271887eeea0000", "ddba4775944910009e26e884b1d60000", "7b88c76f001e10009e2ec8225bc00000", "ddc1c539f0681001e553416a99b50000", "9de49f588a0f10009e3a177eed6b0000", "258f36bc4b0f10014d0845c326100000", "cef188fb758d10009e0110b448460000", "cef188fb758d10009de3528265330000"]
+
+  - name: Mars
+    tier: Corporate - FMCG
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: mars.wd3.myworkdayjobs.com
+    tenant: mars
+    site: External
+    passes:
+      - locations: ["f7694590cd500155fcb362faa80dcd5e", "f7694590cd5001883b80bdfea80d0d65"]
+    # Quiet at time of adding; UK finance placements run seasonally.
+
+  - name: Novartis
+    tier: Corporate - Pharma
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: novartis.wd3.myworkdayjobs.com
+    tenant: novartis
+    site: Novartis_Careers
+    passes:
+      - workerSubType: ["3d760461da4e1001518ab67c736a0000"]
+      - locationCountry: ["d903bb3fedad45039383f6de334ad4db", "6cb77610a8a543aea2d6bc10457e35d4", "d4afdeb461d446e4babd204bd102dba8", "29247e57dbaf46fb855b224e03170bc7"]
+
+  - name: Renishaw
+    tier: Corporate - Industrials
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: renishaw.wd3.myworkdayjobs.com
+    tenant: renishaw
+    site: Renishaw
+
+  - name: Rio Tinto
+    tier: Corporate - Mining
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: riotinto.wd3.myworkdayjobs.com
+    tenant: riotinto
+    site: Riotinto_Careers
+
+  - name: Sanofi
+    tier: Corporate - Pharma
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: sanofi.wd3.myworkdayjobs.com
+    tenant: sanofi
+    site: SanofiCareers
+    passes:
+      - workerSubType: ["270085b4a8cc1010c0d19840d71829b8", "270085b4a8cc1010c1512c90626d29da", "270085b4a8cc1010c15123c84d5029d8", "c801bd44392b1018ed6b17195a0f0000"]
+      - locationCountry: ["d903bb3fedad45039383f6de334ad4db", "6cb77610a8a543aea2d6bc10457e35d4", "d4afdeb461d446e4babd204bd102dba8", "29247e57dbaf46fb855b224e03170bc7"]
+    # Tax Intern in Shanghai.
+
+  - name: Shell
+    tier: Corporate - Energy
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: shell.wd3.myworkdayjobs.com
+    tenant: shell
+    site: ShellCareers
+
+  - name: Sky
+    tier: Corporate - Media
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: sky.wd3.myworkdayjobs.com
+    tenant: sky
+    site: Sky_Careers
+
+  - name: Smith and Nephew
+    tier: Corporate - Healthcare
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: smithnephew.wd5.myworkdayjobs.com
+    tenant: smithnephew
+    site: External
+
+  - name: Thales
+    tier: Corporate - Defence
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: thales.wd3.myworkdayjobs.com
+    tenant: thales
+    site: Careers
+    passes:
+      - workerSubType: ["47200b8529d910215e133a260a722492", "47200b8529d910215e1341585a8c2495", "1cb112d52e9c1000b743bea75fd40000", "e4397306756401fb51ba61e65f3fb56f", "5af4f5cd8760013b5d0277b71a2b1b3a"]
+      - locationCountry: ["d903bb3fedad45039383f6de334ad4db", "6cb77610a8a543aea2d6bc10457e35d4", "d4afdeb461d446e4babd204bd102dba8", "29247e57dbaf46fb855b224e03170bc7"]
