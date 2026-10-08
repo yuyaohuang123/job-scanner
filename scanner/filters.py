@@ -227,21 +227,99 @@ REGIONS = [
         "guangzhou", "chengdu", "hangzhou", "tianjin", "nanjing", "suzhou",
         "wuhan", "xi'an", "dalian", "qingdao", "chongqing",
     ]),
-    ("uk", [
-        "united kingdom", "england", "scotland", "wales", "northern ireland",
-        "london", "canary wharf", "churchill place", "bank street", "moorgate",
-        "liverpool street", "broadgate", "bishopsgate", "city of london",
-        "birmingham", "glasgow", "edinburgh", "manchester", "leeds", "bristol",
-        "belfast", "cardiff", "sheffield", "nottingham", "reading", "cambridge",
-        "oxford", "knutsford", "radbroke", "northampton", "bournemouth",
-        "chester", "swindon", "milton keynes", "gb-", "(uk)", " uk",
-    ]),
+    # UK is handled separately below: its country markers are unambiguous but
+    # its town names collide with American ones, so the two are judged
+    # differently.
+]
+
+# Unambiguous "this is in the UK" markers.
+UK_STRONG = [
+    "united kingdom", "england", "scotland", "wales", "northern ireland",
+    "great britain", "gb-", "(uk)", " uk", ",uk", "u.k.",
+]
+
+# UK towns and employer sites. Matched on word boundaries, and only trusted
+# when the text carries no non-UK country or US-state marker (see below) --
+# which is what separates Cambridge from Cambridge, MA.
+#
+# This list is deliberately long: it was originally built around bank offices
+# (London, Glasgow, Birmingham) and silently dropped every corporate site, so
+# Airbus's finance placements at Broughton, Filton and Stevenage never
+# reached the digest.
+UK_CITIES = [
+    # London and its financial districts
+    "london", "canary wharf", "churchill place", "bank street", "moorgate",
+    "liverpool street", "broadgate", "bishopsgate", "city of london",
+    "croydon", "uxbridge", "brentford", "hounslow", "staines", "chertsey",
+    "egham", "watford", "borehamwood", "enfield", "barnet", "harrow",
+    # major cities
+    "birmingham", "glasgow", "edinburgh", "manchester", "leeds", "bristol",
+    "liverpool", "sheffield", "newcastle", "nottingham", "leicester",
+    "coventry", "bradford", "wolverhampton", "plymouth", "derby", "swansea",
+    "aberdeen", "dundee", "sunderland", "hull", "stoke", "stoke-on-trent",
+    "belfast", "cardiff", "newport", "wrexham", "lisburn", "londonderry",
+    "inverness", "stirling", "falkirk", "livingston", "paisley", "kilmarnock",
+    # the Thames Valley / M4 / M3 corridor, where most corporate HQs sit
+    "reading", "bracknell", "slough", "maidenhead", "windsor", "woking",
+    "guildford", "farnborough", "fleet", "camberley", "aldershot", "basingstoke",
+    "newbury", "thatcham", "wokingham", "weybridge", "walton oaks", "leatherhead",
+    "epsom", "redhill", "crawley", "gatwick", "horsham", "chichester",
+    # the Oxford / Cambridge / M1 arc
+    "oxford", "cambridge", "abingdon", "didcot", "harwell", "culham",
+    "bicester", "banbury", "aylesbury", "high wycombe", "hemel hempstead",
+    "st albans", "welwyn", "hatfield", "stevenage", "hertford", "ware",
+    "luton", "milton keynes", "bedford", "northampton", "rugby", "daventry",
+    "corby", "kettering", "wellingborough", "huntingdon", "peterborough",
+    "royston", "letchworth", "hitchin", "stansted",
+    # the North and Midlands industrial belt
+    "knutsford", "radbroke", "chester", "broughton", "warrington", "crewe",
+    "macclesfield", "alderley park", "stockport", "salford", "oldham",
+    "rochdale", "bolton", "wigan", "preston", "blackburn", "burnley",
+    "blackpool", "lancaster", "carlisle", "barrow", "middlesbrough",
+    "darlington", "durham", "gateshead", "halifax", "huddersfield",
+    "wakefield", "doncaster", "rotherham", "barnsley", "chesterfield",
+    "mansfield", "telford", "shrewsbury", "stafford", "burton", "tamworth",
+    "solihull", "redditch", "worcester", "hereford", "gloucester",
+    "cheltenham", "swindon", "warwick", "whitley", "gaydon", "halewood",
+    "ellesmere port", "deeside", "burnaston", "castle bromwich",
+    # the South and South West
+    "southampton", "portsmouth", "winchester", "salisbury", "bournemouth",
+    "poole", "exeter", "plymouth", "taunton", "yeovil", "bath", "truro",
+    "brighton", "worthing", "eastbourne", "hastings", "canterbury",
+    "maidstone", "ashford", "dartford", "rochester", "chatham", "southend",
+    "basildon", "chelmsford", "colchester", "ipswich", "norwich", "cowley",
+    # aerospace / defence / energy sites
+    "filton", "warton", "samlesbury", "brough", "yeovilton", "barnoldswick",
+    "hucknall", "goodwood", "dunton", "bridgend", "port talbot", "scunthorpe",
+    "grangemouth", "fawley", "stanlow", "immingham", "sandwich",
+    "barnard castle", "speke", "ulverston", "sellafield", "aldermaston",
+]
+
+# If any of these appear, a UK-looking town name is somewhere else:
+# "Cambridge, MA", "Birmingham, AL", "Newcastle, Australia".
+NON_UK_MARKERS = [
+    "united states", "u.s.", "usa", "canada", "mexico", "brazil",
+    "germany", "france", "spain", "italy", "netherlands", "belgium",
+    "switzerland", "austria", "poland", "czech", "hungary", "romania",
+    "sweden", "norway", "denmark", "finland", "portugal", "greece",
+    "turkey", "india", "japan", "korea", "singapore", "malaysia",
+    "thailand", "vietnam", "indonesia", "philippines", "australia",
+    "new zealand", "south africa", "israel", "uae", "dubai", "qatar",
+    "saudi", "egypt", "nigeria", "kenya", "argentina", "chile", "colombia",
+    # US state abbreviations, as they appear in "Atlanta Area, GA"
+    ", al", ", ak", ", az", ", ar", ", ca", ", co", ", ct", ", de", ", fl",
+    ", ga", ", hi", ", id", ", il", ", in", ", ia", ", ks", ", ky", ", la",
+    ", me", ", md", ", ma", ", mi", ", mn", ", ms", ", mo", ", mt", ", ne",
+    ", nv", ", nh", ", nj", ", nm", ", ny", ", nc", ", nd", ", oh", ", ok",
+    ", or", ", pa", ", ri", ", sc", ", sd", ", tn", ", tx", ", ut", ", vt",
+    ", va", ", wa", ", wv", ", wi", ", wy", ", dc",
 ]
 
 # Places that share a name with somewhere we care about. Each is stripped
 # from the text before matching so the remainder is judged on its own.
 FALSE_FRIENDS = [
     "new london",            # Connecticut
+    "new york",              # otherwise "York" reads as Yorkshire
     "london, ontario",       # Canada
     "london, on",
     "london, ky",
@@ -255,9 +333,15 @@ FALSE_FRIENDS = [
     "taiwan", "taipei", "macau", "macao",
 ]
 
+_UK_CITY_RE = _words(*UK_CITIES)
+
 
 def classify_region(location_text, country=None):
-    """Return a region name from REGIONS, or None."""
+    """Return a region name, or None.
+
+    Country-level markers decide outright. A bare UK town name is weaker
+    evidence, so it only counts when nothing in the text points abroad.
+    """
     haystack = " ".join(filter(None, [location_text, country])).lower()
     if not haystack.strip():
         return None
@@ -269,6 +353,12 @@ def classify_region(location_text, country=None):
     for name, terms in REGIONS:
         if any(term in haystack for term in terms):
             return name
+
+    if any(term in haystack for term in UK_STRONG):
+        return "uk"
+
+    if _UK_CITY_RE.search(haystack) and not any(m in haystack for m in NON_UK_MARKERS):
+        return "uk"
 
     return None
 
