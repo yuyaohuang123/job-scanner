@@ -72,6 +72,14 @@ def scan_firm(firm, session, delay, known=None):
         if not ok:
             continue
 
+        # Corporates: keep only the finance function (treasury, audit,
+        # strategy, tax ...), otherwise a car maker floods the digest with
+        # engineering internships.
+        if firm.get("finance_only"):
+            if not filters.is_finance_function(posting["title"]):
+                continue
+            posting["function"] = "finance"
+
         posting["firm"] = firm["name"]
         posting["tier"] = firm.get("tier", "Other")
         posting["platform"] = firm.get("platform", "")

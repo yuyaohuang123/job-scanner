@@ -113,6 +113,11 @@ def run(names, out_path=None):
                 ok = owner_matches(owner, name)
                 if ok is False:
                     continue  # a real board, but someone else's
+                if not jobs:
+                    # Workable answers 200 with an empty list for accounts that
+                    # don't exist, and its widget echoes a name derived from the
+                    # slug -- so an empty board proves nothing. Skip it.
+                    continue
                 interns = [(t, l, filters.classify_region(l)) for t, l in jobs if filters.classify_role(t) and not filters.is_excluded(t)]
                 inreg = [x for x in interns if x[2]]
                 found = {"platform": platform, "slug": slug, "owner": owner, "total": len(jobs), "interns": len(interns), "in_region": len(inreg), "samples": inreg[:3]}

@@ -1,0 +1,202 @@
+# Large non-financial corporates that run finance / treasury / audit / strategy
+# internships and UK industrial placements.
+# --- automotive & aerospace & defence
+BMW Group
+Mercedes-Benz
+Volkswagen Group
+Audi
+Porsche
+Jaguar Land Rover
+Nissan
+Toyota
+Honda
+Ford
+Stellantis
+Bentley Motors
+Aston Martin
+Rolls-Royce
+Airbus
+Boeing
+BAE Systems
+Leonardo
+Thales
+MBDA
+Babcock International
+Safran
+GKN Aerospace
+Collins Aerospace
+# --- industrials & engineering
+Siemens
+Bosch
+General Electric
+Caterpillar
+JCB
+Johnson Matthey
+Smiths Group
+Spirax
+Weir Group
+Renishaw
+Dyson
+Schneider Electric
+ABB
+Honeywell
+3M
+Emerson
+Rolls Royce Power Systems
+Alstom
+Hitachi
+Mitsubishi Electric
+# --- FMCG & consumer
+Unilever
+Procter and Gamble
+Nestle
+Mars
+Mondelez
+PepsiCo
+Coca-Cola
+Coca-Cola Europacific Partners
+Diageo
+Heineken
+AB InBev
+Carlsberg
+Reckitt
+Kraft Heinz
+Danone
+Kellogg
+General Mills
+L'Oreal
+Estee Lauder
+Haleon
+Essity
+Henkel
+Beiersdorf
+Britvic
+Associated British Foods
+Premier Foods
+Greencore
+Bakkavor
+# --- pharma & healthcare
+AstraZeneca
+GSK
+Pfizer
+Johnson and Johnson
+Novartis
+Roche
+Merck
+Sanofi
+Bayer
+Takeda
+Novo Nordisk
+Eli Lilly
+AbbVie
+Amgen
+Bristol Myers Squibb
+Moderna
+Smith and Nephew
+ConvaTec
+# --- tech & telecoms & media
+Amazon
+Apple
+Google
+Microsoft
+Meta
+IBM
+Intel
+Dell Technologies
+Cisco
+SAP
+Oracle
+Salesforce
+Adobe
+HP
+Lenovo
+Samsung
+Sony
+Vodafone
+BT Group
+Virgin Media O2
+Sky
+ITV
+WPP
+Publicis
+Omnicom
+Disney
+Warner Bros Discovery
+Netflix
+Spotify
+Expedia
+Booking
+Uber
+# --- energy & utilities & resources
+Shell
+BP
+TotalEnergies
+Equinor
+National Grid
+Centrica
+SSE
+EDF Energy
+E.ON
+Octopus Energy
+Drax
+United Utilities
+Severn Trent
+Thames Water
+Anglian Water
+Rio Tinto
+BHP
+Anglo American
+Glencore
+# --- retail & leisure & transport
+Tesco
+Sainsburys
+Marks and Spencer
+John Lewis Partnership
+Asda
+Morrisons
+Aldi
+Lidl
+Next
+Primark
+Kingfisher
+B&Q
+Boots
+Currys
+Dunelm
+JD Sports
+Frasers Group
+Burberry
+Whitbread
+Compass Group
+IHG
+Marriott
+Hilton
+British Airways
+easyJet
+Ryanair
+Heathrow Airport
+Network Rail
+DHL
+Maersk
+DP World
+DSV
+Kuehne Nagel
+Ocado
+Deliveroo
+# --- property, construction & infrastructure
+Balfour Beatty
+Arup
+Mace Group
+Skanska
+Laing O'Rourke
+Costain
+Galliford Try
+Mott MacDonald
+AECOM
+Jacobs
+WSP
+Turner and Townsend
+Landsec
+British Land
+Segro
+Unite Students

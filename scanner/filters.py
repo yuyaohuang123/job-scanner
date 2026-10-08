@@ -1,8 +1,8 @@
 """Classify raw postings into the roles and regions we actually care about.
 
 Every adapter returns loosely-shaped postings; this module is the single place
-that decides "is this an internship or placement?" and "is this UK or China
-mainland?". Keeping it separate means one fix improves every firm at once.
+that decides "is this an internship or placement?" and "is this in one of
+our regions?". Keeping it separate means one fix improves every firm at once.
 """
 
 import re
@@ -77,6 +77,26 @@ PLACEMENT_RE = _words(
 
 # Graduate-role titles: "Full Time Analyst", "Full-Time Associate". Narrow on
 # purpose -- "Full-time Summer Intern" is a real internship and must survive.
+# Corporates label placement years without the word "internship": Pfizer's
+# "Finance Undergraduate", BMW's "Finance Placement", "Year in Industry".
+# Checked only after the explicit internship patterns, so "Undergrad Intern"
+# still classifies as an internship rather than a placement.
+STUDENT_RE = _words(
+    "undergraduate", "undergrads", "undergrad",
+    "placement", "placements", "placement year", "industrial year",
+)
+
+# The STUDENT_RE fallback is weak evidence, so it loses to any professional or
+# seniority marker. This is what keeps insurance broking out: in that trade
+# "placement" means placing risk in the market, giving titles like "Senior
+# Placement Broker" and "Placement Support Specialist".
+SENIORITY_RE = _words(
+    "senior", "lead", "principal", "manager", "director", "head",
+    "vice president", "avp", "svp", "vp", "executive", "officer",
+    "specialist", "technician", "broker", "broking", "consultant",
+    "administrator", "adviser", "advisor", "partner", "associate director",
+)
+
 FULL_TIME_RE = re.compile(r"full[ -]?time\s+(analyst|associate|graduate|hire)", re.IGNORECASE)
 
 # Titles that are ABOUT the internship programme rather than a seat on it.
@@ -95,6 +115,16 @@ EXCLUDE_RE = _words(
     "recruiter",
     "recruiting manager",
     "campus recruiter",
+    # "Private Placements" is a debt/equity product, not a student placement --
+    # the bare "placement" fallback above would otherwise claim these.
+    "private placement",
+    "private placements",
+    "placement agent",
+    "equity placement",
+    "debt placement",
+    "placement coordinator",
+    "placement manager",
+    "placement officer",
 )
 
 
@@ -119,6 +149,9 @@ def classify_role(title, worker_sub_type=None):
     if INTERNSHIP_RE.search(title):
         return "internship"
 
+    if STUDENT_RE.search(title) and not SENIORITY_RE.search(title):
+        return "placement"
+
     # The platform's own label, for titles that don't say ("2027 Analyst,
     # London" tagged Intern; HSBC's "Programme type: Internship Programme").
     # Graduate schemes are explicitly not what we want, so they lose even
@@ -140,6 +173,46 @@ def is_excluded(title):
     return bool(EXCLUDE_RE.search(title or ""))
 
 
+# --- Function classification ---------------------------------------------
+#
+# Only used for firms whose config sets `finance_only: true` -- the large
+# non-financial corporates (BMW, Unilever, AstraZeneca ...). Their boards are
+# mostly engineering, marketing and operations; this keeps the finance
+# function: treasury, audit, strategy, tax, accounting, controlling, FP&A.
+# At a bank every role is in scope, so the flag is left off there.
+
+FINANCE_FUNCTION_RE = _words(
+    "finance", "financial", "financials",
+    "treasury", "treasurer",
+    "audit", "audits", "auditing", "auditor",
+    "accounting", "accountancy", "accountant", "accounts", "aca", "acca", "cima",
+    "tax", "taxation",
+    "controlling", "controller", "comptroller",
+    "strategy", "strategic", "strategist",
+    "fp&a", "investor relations", "corporate development",
+    "m&a", "mergers", "acquisitions", "corporate finance",
+    "commercial finance", "business finance", "group finance",
+    "actuarial", "economics", "economist",
+    "credit", "capital markets", "procurement finance",
+)
+
+# Words that make a "finance-sounding" title something else entirely:
+# "Cyber Risk", "Quality Audit", "Safety Audit", "Clinical Strategy".
+FUNCTION_EXCLUDE_RE = _words(
+    "cyber", "cybersecurity", "information security", "infosec",
+    "health and safety", "safety", "quality", "clinical", "medical",
+    "environmental", "energy audit", "supplier audit", "food", "patient",
+)
+
+
+def is_finance_function(title):
+    """True if a corporate posting sits in the finance function."""
+    title = title or ""
+    if FUNCTION_EXCLUDE_RE.search(title):
+        return False
+    return bool(FINANCE_FUNCTION_RE.search(title))
+
+
 # --- Region classification ----------------------------------------------
 
 # Ordered: the first region whose terms appear wins. Hong Kong is checked
@@ -153,10 +226,6 @@ REGIONS = [
         "china", "mainland china", "shanghai", "beijing", "shenzhen",
         "guangzhou", "chengdu", "hangzhou", "tianjin", "nanjing", "suzhou",
         "wuhan", "xi'an", "dalian", "qingdao", "chongqing",
-    ]),
-    ("australia", [
-        "australia", "sydney", "melbourne", "brisbane", "perth", "canberra",
-        "adelaide", "gold coast", "barangaroo", "collins street",
     ]),
     ("uk", [
         "united kingdom", "england", "scotland", "wales", "northern ireland",
@@ -181,12 +250,6 @@ FALSE_FRIENDS = [
     "manchester, nh",
     "cambridge, ma",
     "cambridge, massachusetts",
-    "melbourne, fl",         # Florida
-    "melbourne, florida",
-    "sydney, ns",            # Nova Scotia
-    "sydney, nova scotia",
-    "perth, scotland",       # the original Perth -- routed to UK below
-    "perth, uk",
     "china town",
     "chinatown",
     "taiwan", "taipei", "macau", "macao",
@@ -198,12 +261,6 @@ def classify_region(location_text, country=None):
     haystack = " ".join(filter(None, [location_text, country])).lower()
     if not haystack.strip():
         return None
-
-    # Perth is in Scotland as well as Western Australia. For these firms the
-    # Australian one is overwhelmingly more likely, unless the text says
-    # otherwise -- so decide that before the false friends are stripped.
-    if "perth" in haystack and any(t in haystack for t in ("scotland", "united kingdom", " uk")):
-        return "uk"
 
     for bad in FALSE_FRIENDS:
         if bad in haystack:

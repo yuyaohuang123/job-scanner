@@ -26,3 +26,7 @@ data/unsent_listings.md
 data/gc*.html
 data/gc_dry.txt
 data/dryrun5.txt
+data/dry_corp*.txt
+data/corp_hits.json
+data/corp_workday.json
+data/bmw.html

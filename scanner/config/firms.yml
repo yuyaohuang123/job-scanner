@@ -18,7 +18,7 @@
 
 defaults:
   delay: 1.0
-  regions: [uk, china, hong-kong, australia]
+  regions: [uk, china, hong-kong]
   categories: [internship, placement]
 
 firms:
@@ -569,7 +569,7 @@ firms:
   - name: GradConnection (AU)
     tier: Australia
     platform: gradconnection
-    enabled: true
+    enabled: false   # Australia dropped from scope 2026-10-08
     # Australia's national student-jobs aggregator (robots.txt allows it).
     # Covers CommBank, Westpac, NAB, ANZ, Macquarie, the Big 4 AU, super
     # funds and quant shops in one place, with closing dates and an
@@ -578,8 +578,134 @@ firms:
   - name: CommBank
     tier: Australia
     platform: workday
-    enabled: true
+    enabled: false   # Australia dropped from scope 2026-10-08
     host: cba.wd3.myworkdayjobs.com
     tenant: cba
     site: CommBank_Careers
     # 2026/27 Summer Intern Program had closed by setup; here for 2027/28.
+
+  # =============================== Corporates: finance function (2026-10-08)
+  # Large non-financial employers whose finance / treasury / audit / strategy
+  # internships and UK placement years are worth tracking. `finance_only: true`
+  # keeps just the finance function -- without it a car maker or a pharma
+  # company would bury the digest in engineering and lab roles.
+
+  - name: Airbus
+    tier: Corporate - Aerospace
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: ag.wd3.myworkdayjobs.com
+    tenant: ag
+    site: Airbus
+    passes:
+      - workerSubType: ["f5811cef9cb50193723ed01d470a6e15"]
+      - locationCountry: ["6cb77610a8a543aea2d6bc10457e35d4", "d4afdeb461d446e4babd204bd102dba8", "29247e57dbaf46fb855b224e03170bc7"]
+    # 2,000 roles, 150 early-careers; UK sites at Filton/Broughton.
+
+  - name: Amgen
+    tier: Corporate - Pharma
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: amgen.wd1.myworkdayjobs.com
+    tenant: amgen
+    site: Careers
+    passes:
+      - workerSubType: ["6be1eff3a16c1053f4fedbed5cb55d8a"]
+      - locations: ["be0893cb78ed0109933054e28144c238", "be0893cb78ed018d99ea05e381446239", "5b2714d9b1bf1001ded283c53fb10000", "500c57928e7301a112b68bc5734b836d", "be0893cb78ed013a494327e381448539", "be0893cb78ed0184b8eb2ce381448a39", "be0893cb78ed01e2730538e381449439", "be0893cb78ed01667e6b41e381449e39", "500c57928e73013f697a71c5734b746d", "ded5df3dd3071001defa3026f5010000", "3f61e287f7911001df2232b8149e0000", "500c57928e7301704e8165c5734b696d", "5b2714d9b1bf1001ded1d4f8fa950000", "a273e44c162c1001df1f0571e4d60000", "500c57928e7301c8bd52d5c4734b086d", "35d1f9eb5bf51001df24b0541d5d0000", "5b2714d9b1bf1001ded23ca7980e0000", "be0893cb78ed01ecb6ae64e38144c939", "500c57928e7301edb209adc5734b936d", "ded5df3dd3071001def8f351461c0000", "740fb0dbb0fc1001df26a0c048680000", "b3f1856ebe72010cf7f808b98b0e3dbb", "be0893cb78ed0174656173e38144d839", "c9809b2e2e900126cc65ea67f5142243", "be0893cb78ed01bfa5a777e38144dd39", "500c57928e7301e9579b75c6734b116e", "be0893cb78ed01c6488595e38144fc39", "be0893cb78ed0131cfa09ae38144013a", "be0893cb78ed0108f59a9fe38144063a", "500c57928e730154536d7cc4734bd76c", "be0893cb78ed01713eb4aee38144153a", "be0893cb78ed018b61f3a9e38144103a", "be0893cb78ed0149f08ab3e381441a3a", "500c57928e7301d5295f7dc5734b7e6d", "876630fa4a091001deecbef94ff40000", "0b6f16dabafb1001df3f66a4f3310000", "500c57928e73011b529f5fc5734b5f6d", "be0893cb78ed01ebe81befea81446741", "be0893cb78ed01a8221943eb8144c141", "be0893cb78ed01e094dd8feb81442c42", "be0893cb78ed018d318ef6eb8144aa42", "be0893cb78ed016d00df0eec8144c342", "48e5fa8906ee100123624f42f9d30000", "be0893cb78ed01b6d107faec81449f43"]
+
+  - name: AstraZeneca
+    tier: Corporate - Pharma
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: astrazeneca.wd3.myworkdayjobs.com
+    tenant: astrazeneca
+    site: Emerging-Talent
+    # Emerging-Talent site carries the 12-month UK placements.
+
+  - name: Crowe
+    tier: Corporate - Accounting
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: crowe.wd12.myworkdayjobs.com
+    tenant: crowe
+    site: External_Careers
+    # Audit and tax intern pipeline.
+
+  - name: Diageo
+    tier: Corporate - FMCG
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: diageo.wd3.myworkdayjobs.com
+    tenant: diageo
+    site: Diageo_Careers
+
+  - name: Liberty Global
+    tier: Corporate - Telecoms
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: libertyglobal.wd3.myworkdayjobs.com
+    tenant: libertyglobal
+    site: Liberty_Global_Careers
+    # Virgin Media O2's parent; Finance Intern in London.
+
+  - name: MBDA
+    tier: Corporate - Defence
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: mbda.wd3.myworkdayjobs.com
+    tenant: mbda
+    site: MBDA-UK
+    # Finance - Undergraduate Placement (Stevenage) runs here.
+
+  - name: Pfizer
+    tier: Corporate - Pharma
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: pfizer.wd1.myworkdayjobs.com
+    tenant: pfizer
+    site: PfizerCareers
+    passes:
+      - Location_Country: ["6cb77610a8a543aea2d6bc10457e35d4", "29247e57dbaf46fb855b224e03170bc7", "d903bb3fedad45039383f6de334ad4db"]
+    # Finance Undergraduate (Walton Oaks) is a 12-month UK placement.
+
+  - name: Procter & Gamble
+    tier: Corporate - FMCG
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: pg.wd5.myworkdayjobs.com
+    tenant: pg
+    site: 1000
+    passes:
+      - workerSubType: ["e294e7e48559015579693cb03207ff2b", "e294e7e4855901ed496916af3207782a"]
+      - locationCountry: ["d903bb3fedad45039383f6de334ad4db", "29247e57dbaf46fb855b224e03170bc7"]
+    # Large board; 24 finance-function early-careers roles.
+
+  - name: Rolls-Royce
+    tier: Corporate - Aerospace
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: rollsroyce.wd3.myworkdayjobs.com
+    tenant: rollsroyce
+    site: Intern_Graduate
+    # Dedicated Intern_Graduate site.
+
+  - name: Unilever
+    tier: Corporate - FMCG
+    platform: workday
+    enabled: true
+    finance_only: true
+    host: unilever.wd3.myworkdayjobs.com
+    tenant: unilever
+    site: unilever_early_careers
+    # ULIP / Industrial Placement Programme, incl. Finance.
+

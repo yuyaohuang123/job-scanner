@@ -23,9 +23,21 @@ three lines of config, not a new scraper.
 
 ## Status
 
-**124 firms verified and enabled** across fourteen platforms. The scan returns
-~450 internship and placement listings -- ~50 of them industrial / year-long
-placements -- across the UK, China mainland, Hong Kong and Australia.
+**135 firms verified and enabled** across fourteen platforms, returning ~460
+internship and placement listings across the UK, China mainland and Hong Kong.
+
+Australia was dropped from scope in October 2026; the GradConnection adapter
+remains in the tree, disabled, if it is ever wanted back.
+
+**Corporates.** Eleven large non-financial employers (Pfizer, Unilever, Airbus,
+P&G, Rolls-Royce, AstraZeneca, Amgen, MBDA, Diageo, Liberty Global, Crowe) are
+tracked with `finance_only: true`, which keeps only the finance function --
+treasury, audit, strategy, tax, accounting, controlling. Without it a car maker
+or a pharma company buries the digest in engineering and lab roles.
+
+BMW is **not** covered: www.bmwgroup.jobs drops non-browser connections
+(requests hang rather than 403), which would also block the GitHub runner.
+Its UK finance placements have to be checked by hand at bmwgroup.jobs/uk.
 
 Every bulge-bracket bank has a working adapter: Goldman Sachs (GraphQL),
 J.P. Morgan (Oracle), Morgan Stanley (campus feed), Citi (Radancy), Bank of

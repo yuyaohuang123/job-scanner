@@ -28,7 +28,6 @@ REGION_LABEL = {
     "uk": "UK",
     "china": "China mainland",
     "hong-kong": "Hong Kong",
-    "australia": "Australia",
 }
 
 
