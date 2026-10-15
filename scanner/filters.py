@@ -175,42 +175,64 @@ def is_excluded(title):
 
 # --- Function classification ---------------------------------------------
 #
-# Only used for firms whose config sets `finance_only: true` -- the large
-# non-financial corporates (BMW, Unilever, AstraZeneca ...). Their boards are
-# mostly engineering, marketing and operations; this keeps the finance
-# function: treasury, audit, strategy, tax, accounting, controlling, FP&A.
+# Only used for firms whose config sets `business_only: true` -- the large
+# non-financial corporates (L'Oreal, Airbus, Unilever ...). Their boards are
+# mostly engineering, laboratory and retail roles; this keeps the commercial
+# side of the house: finance, treasury, audit, strategy, tax, accounting, plus
+# general business management and commercial programmes.
 # At a bank every role is in scope, so the flag is left off there.
 
-FINANCE_FUNCTION_RE = _words(
-    "finance", "financial", "financials",
-    "treasury", "treasurer",
+BUSINESS_FUNCTION_RE = _words(
+    # finance proper
+    "finance", "financial", "financials", "treasury", "treasurer",
     "audit", "audits", "auditing", "auditor",
     "accounting", "accountancy", "accountant", "accounts", "aca", "acca", "cima",
-    "tax", "taxation",
-    "controlling", "controller", "comptroller",
-    "strategy", "strategic", "strategist",
+    "tax", "taxation", "controlling", "controller", "comptroller",
     "fp&a", "investor relations", "corporate development",
     "m&a", "mergers", "acquisitions", "corporate finance",
     "commercial finance", "business finance", "group finance",
-    "actuarial", "economics", "economist",
-    "credit", "capital markets", "procurement finance",
+    "actuarial", "economics", "economist", "credit", "capital markets",
+    # strategy and general business management
+    "strategy", "strategic", "strategist",
+    "business", "business management", "business analyst", "business analysis",
+    "business development", "business operations", "business planning",
+    "commercial", "commerce", "management trainee", "general management",
+    "leadership programme", "leadership program", "rotational",
+    "consulting", "consultant", "transformation", "analytics", "insights",
+    "procurement", "purchasing", "supply chain", "operations", "category",
+    # Commercial roles. At a consumer company "business management" is often
+    # the marketing/brand track, so these count as business-side too.
+    "marketing", "brand", "merchandising", "sales", "e-commerce", "ecommerce",
+    "customer", "trading", "buying", "communications", "public relations",
 )
 
-# Words that make a "finance-sounding" title something else entirely:
-# "Cyber Risk", "Quality Audit", "Safety Audit", "Clinical Strategy".
+# Words that make a business-sounding title something else: the engineering,
+# laboratory, clinical and frontline-retail roles that fill a corporate board.
 FUNCTION_EXCLUDE_RE = _words(
     "cyber", "cybersecurity", "information security", "infosec",
     "health and safety", "safety", "quality", "clinical", "medical",
-    "environmental", "energy audit", "supplier audit", "food", "patient",
+    "environmental", "energy audit", "supplier audit", "patient",
+    "engineer", "engineering", "technician", "mechanic", "mechanical",
+    "electrical", "chemical", "civil", "aerodynamics", "aerospace engineer",
+    "laboratory", "lab", "scientist", "chemist", "biologist", "r&d",
+    "nurse", "pharmacist", "physician", "veterinary",
+    "software", "developer", "programmer", "devops", "hardware", "network",
+    "machinist", "welder", "electrician", "fitter", "driver", "warehouse",
+    "retail assistant", "store assistant", "shop", "barista", "cleaner",
+    "pilot", "cabin crew", "chef", "kitchen",
 )
 
 
-def is_finance_function(title):
-    """True if a corporate posting sits in the finance function."""
+def is_business_function(title):
+    """True if a corporate posting sits in finance, strategy or business."""
     title = title or ""
     if FUNCTION_EXCLUDE_RE.search(title):
         return False
-    return bool(FINANCE_FUNCTION_RE.search(title))
+    return bool(BUSINESS_FUNCTION_RE.search(title))
+
+
+# Kept so older callers and configs keep working.
+is_finance_function = is_business_function
 
 
 # --- Region classification ----------------------------------------------

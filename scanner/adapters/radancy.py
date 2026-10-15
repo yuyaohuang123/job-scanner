@@ -31,12 +31,18 @@ HEADERS = {
     "X-Requested-With": "XMLHttpRequest",
 }
 
-CARD_RE = re.compile(
-    r'<a class="sr-job-item__link" href="([^"]+)" data-job-id="([^"]+)"[^>]*>\s*(.*?)\s*</a>'
-    r'(.*?)</li>',
-    re.S,
-)
-LOCATION_RE = re.compile(r'sr-job-location[^>]*>(.*?)</span>', re.S)
+# Radancy ships two card templates. Citi runs the older one
+# (sr-job-item__link); L'Oreal runs the newer search-results-list one. Both
+# appear on live tenants, so match either.
+CARD_RES = [
+    re.compile(
+        r'<a class="sr-job-item__link" href="([^"]+)" data-job-id="([^"]+)"[^>]*>\s*(.*?)\s*</a>'
+        r'(.*?)</li>', re.S),
+    re.compile(
+        r'<a class="search-results-list__job-link" href="([^"]+)" data-job-id="([^"]+)"[^>]*>\s*'
+        r'<h3[^>]*>(.*?)</h3>(.*?)</a>', re.S),
+]
+LOCATION_RE = re.compile(r'(?:sr-job-location|job-location)[^>]*>(.*?)</span>', re.S)
 TAG_RE = re.compile(r"<[^>]+>")
 
 # GeoNames country ids, shared across Radancy tenants.
@@ -84,8 +90,10 @@ class RadancyAdapter:
             "PostalCode": "",
             "ResultsType": 0,
         }
+        prefix = self.firm.get("path_prefix", "").strip("/")
+        base = f"https://{self.firm['host']}" + (f"/{prefix}" if prefix else "")
         response = self.session.get(
-            f"https://{self.firm['host']}/search-jobs/results",
+            f"{base}/search-jobs/results",
             params=params,
             headers=HEADERS,
             timeout=REQUEST_TIMEOUT,
@@ -99,7 +107,11 @@ class RadancyAdapter:
             country_id, country_name = COUNTRY_IDS[region]
             for page in range(1, max_pages + 1):
                 markup = self._search(country_id, country_name, page)
-                cards = CARD_RE.findall(markup)
+                cards = []
+                for pattern in CARD_RES:
+                    cards = pattern.findall(markup)
+                    if cards:
+                        break
                 if not cards:
                     break
                 for href, job_id, title, rest in cards:

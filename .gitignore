@@ -35,3 +35,6 @@ data/corporate_finds.md
 data/corp*.json
 data/corp_verify2.txt
 data/dry_final.txt
+data/big_*.json
+data/big_*.log
+data/loreal.html

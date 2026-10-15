@@ -1,0 +1,441 @@
+# Large employers to sweep for finance / strategy / business-management
+# internships and UK placement years. Broad by design: FTSE 100, the main
+# European indices, and global corporates with a sizeable UK presence.
+#
+# --- consumer goods, food, drink, beauty
+L'Oreal
+Unilever
+Procter and Gamble
+Nestle
+Mars
+Mondelez
+PepsiCo
+Coca-Cola
+Coca-Cola Europacific Partners
+Diageo
+Heineken
+Carlsberg
+AB InBev
+Pernod Ricard
+Reckitt
+Haleon
+Kraft Heinz
+Danone
+Kellanova
+General Mills
+Ferrero
+Lindt
+Britvic
+Associated British Foods
+Premier Foods
+Greencore
+Bakkavor
+Tate and Lyle
+Cranswick
+Hilton Food
+Estee Lauder
+Coty
+Beiersdorf
+Henkel
+Essity
+Colgate Palmolive
+Kimberly Clark
+Church and Dwight
+Puig
+Shiseido
+LVMH
+Kering
+Richemont
+Burberry
+Dr Martens
+JD Sports
+Frasers Group
+Next
+Primark
+Marks and Spencer
+Tesco
+Sainsburys
+Asda
+Morrisons
+Aldi
+Lidl
+Waitrose
+John Lewis Partnership
+Co-op
+Iceland Foods
+Ocado
+Kingfisher
+Dunelm
+Currys
+Halfords
+Pets at Home
+Screwfix
+Travis Perkins
+Wickes
+Boots
+Superdrug
+Holland and Barrett
+# --- pharma, biotech, medical devices
+AstraZeneca
+GSK
+Pfizer
+Johnson and Johnson
+Novartis
+Roche
+Merck
+MSD
+Sanofi
+Bayer
+Takeda
+Novo Nordisk
+Eli Lilly
+AbbVie
+Amgen
+Bristol Myers Squibb
+Gilead
+Moderna
+BioNTech
+Boehringer Ingelheim
+Astellas
+Daiichi Sankyo
+CSL
+Smith and Nephew
+ConvaTec
+Medtronic
+Abbott
+Baxter
+Becton Dickinson
+Stryker
+Boston Scientific
+Siemens Healthineers
+Philips
+GE Healthcare
+Thermo Fisher
+Danaher
+Lonza
+Alcon
+Bupa
+# --- technology, software, telecoms, media
+Microsoft
+Apple
+Amazon
+Google
+Meta
+IBM
+Intel
+Nvidia
+AMD
+Qualcomm
+Dell Technologies
+HP
+HPE
+Cisco
+Oracle
+SAP
+Salesforce
+Adobe
+ServiceNow
+Workday
+VMware
+Siemens
+Schneider Electric
+Ericsson
+Nokia
+Samsung
+Sony
+LG
+Lenovo
+Panasonic
+Canon
+Vodafone
+BT Group
+Virgin Media O2
+Sky
+Liberty Global
+Telefonica
+Deutsche Telekom
+Orange
+ITV
+WPP
+Publicis
+Omnicom
+Dentsu
+Informa
+RELX
+Pearson
+Disney
+Warner Bros Discovery
+Netflix
+Spotify
+Expedia
+Booking Holdings
+Uber
+Just Eat
+Deliveroo
+Trainline
+Rightmove
+Auto Trader
+Sage
+Softcat
+Computacenter
+Capgemini
+Accenture
+Infosys
+TCS
+Wipro
+Cognizant
+DXC Technology
+Atos
+CGI
+Fujitsu
+NTT Data
+# --- industrials, aerospace, defence, automotive
+Airbus
+Boeing
+Rolls-Royce
+BAE Systems
+Leonardo
+Thales
+MBDA
+Safran
+Babcock International
+QinetiQ
+Melrose Industries
+GKN Aerospace
+Collins Aerospace
+RTX
+Lockheed Martin
+Northrop Grumman
+General Dynamics
+Honeywell
+General Electric
+Emerson
+3M
+Caterpillar
+JCB
+Komatsu
+ABB
+Hitachi
+Mitsubishi Electric
+Alstom
+Bombardier
+Johnson Matthey
+Croda
+Smiths Group
+Spirax
+Weir Group
+Renishaw
+Rotork
+IMI
+Bodycote
+Dyson
+Electrolux
+Whirlpool
+Bosch
+Continental
+ZF
+Michelin
+Pirelli
+BMW Group
+Mercedes-Benz
+Volkswagen Group
+Audi
+Porsche
+Jaguar Land Rover
+Nissan
+Toyota
+Honda
+Ford
+Stellantis
+Volvo
+Scania
+Bentley Motors
+Aston Martin
+McLaren
+Lotus Cars
+# --- energy, utilities, mining, chemicals
+Shell
+BP
+TotalEnergies
+Equinor
+ExxonMobil
+Chevron
+ConocoPhillips
+Centrica
+SSE
+National Grid
+EDF Energy
+E.ON
+RWE
+Iberdrola
+Scottish Power
+Octopus Energy
+Drax
+United Utilities
+Severn Trent
+Pennon
+Thames Water
+Anglian Water
+Yorkshire Water
+Northumbrian Water
+Rio Tinto
+BHP
+Anglo American
+Glencore
+Antofagasta
+Fresnillo
+Vale
+Linde
+BASF
+Dow
+LyondellBasell
+Ineos
+Victrex
+Elementis
+Synthomer
+# --- transport, logistics, travel, leisure
+Maersk
+DHL
+DSV
+Kuehne Nagel
+DB Schenker
+FedEx
+UPS
+DP World
+Associated British Ports
+Network Rail
+National Highways
+Transport for London
+British Airways
+easyJet
+Ryanair
+Jet2
+Virgin Atlantic
+TUI
+Heathrow Airport
+Gatwick Airport
+Manchester Airports Group
+Rolls Royce Power Systems
+Stagecoach
+FirstGroup
+Go-Ahead
+National Express
+Compass Group
+Sodexo
+Aramark
+Whitbread
+IHG
+Marriott
+Hilton
+Accor
+Premier Inn
+Greene King
+Mitchells and Butlers
+Wetherspoons
+Domino's Pizza
+McDonald's
+Starbucks
+Costa Coffee
+Greggs
+# --- property, construction, infrastructure, professional services
+Balfour Beatty
+Kier
+Morgan Sindall
+Galliford Try
+Costain
+Laing O'Rourke
+Skanska
+Vinci
+Bouygues
+Mace Group
+Lendlease
+Berkeley Group
+Barratt
+Taylor Wimpey
+Persimmon
+Bellway
+Redrow
+Landsec
+British Land
+Segro
+Unite Students
+Grosvenor
+Arup
+Mott MacDonald
+AECOM
+Jacobs
+WSP
+Stantec
+Turner and Townsend
+Gleeds
+Rider Levett Bucknall
+Savills
+Knight Frank
+JLL
+CBRE
+Cushman and Wakefield
+Colliers
+Gerald Eve
+# --- insurance, pensions, services (non-bank)
+Aviva
+Legal and General
+Prudential
+Phoenix Group
+M&G
+Royal London
+Scottish Widows
+Zurich
+AXA
+Allianz
+Generali
+Munich Re
+Swiss Re
+Lloyd's of London
+Beazley
+Hiscox
+Admiral
+Direct Line
+Ageas
+RSA
+Chubb
+AIG
+Marsh
+Aon
+WTW
+Gallagher
+Howden
+Lockton
+Mercer
+LCP
+Hymans Robertson
+Barnett Waddingham
+Isio
+First Actuarial
+# --- other large UK employers
+Rolls-Royce SMR
+Ministry of Defence
+NHS England
+Civil Service
+Bank of England
+Ofgem
+Ofcom
+Financial Conduct Authority
+Royal Mail
+Post Office
+BBC
+Channel 4
+Experian
+Equifax
+TransUnion
+Capita
+Serco
+Mitie
+ISS
+G4S
+Securitas
+Rentokil
+Bunzl
+Diploma
+DCC
+Ashtead
+Speedy Hire

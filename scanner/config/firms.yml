@@ -586,7 +586,7 @@ firms:
 
   # =============================== Corporates: finance function (2026-10-08)
   # Large non-financial employers whose finance / treasury / audit / strategy
-  # internships and UK placement years are worth tracking. `finance_only: true`
+  # internships and UK placement years are worth tracking. `business_only: true`
   # keeps just the finance function -- without it a car maker or a pharma
   # company would bury the digest in engineering and lab roles.
 
@@ -594,7 +594,7 @@ firms:
     tier: Corporate - Aerospace
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: ag.wd3.myworkdayjobs.com
     tenant: ag
     site: Airbus
@@ -607,7 +607,7 @@ firms:
     tier: Corporate - Pharma
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: amgen.wd1.myworkdayjobs.com
     tenant: amgen
     site: Careers
@@ -619,7 +619,7 @@ firms:
     tier: Corporate - Pharma
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: astrazeneca.wd3.myworkdayjobs.com
     tenant: astrazeneca
     site: Emerging-Talent
@@ -629,7 +629,7 @@ firms:
     tier: Corporate - Accounting
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: crowe.wd12.myworkdayjobs.com
     tenant: crowe
     site: External_Careers
@@ -639,7 +639,7 @@ firms:
     tier: Corporate - FMCG
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: diageo.wd3.myworkdayjobs.com
     tenant: diageo
     site: Diageo_Careers
@@ -648,7 +648,7 @@ firms:
     tier: Corporate - Telecoms
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: libertyglobal.wd3.myworkdayjobs.com
     tenant: libertyglobal
     site: Liberty_Global_Careers
@@ -658,7 +658,7 @@ firms:
     tier: Corporate - Defence
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: mbda.wd3.myworkdayjobs.com
     tenant: mbda
     site: MBDA-UK
@@ -668,7 +668,7 @@ firms:
     tier: Corporate - Pharma
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: pfizer.wd1.myworkdayjobs.com
     tenant: pfizer
     site: PfizerCareers
@@ -680,7 +680,7 @@ firms:
     tier: Corporate - FMCG
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: pg.wd5.myworkdayjobs.com
     tenant: pg
     site: 1000
@@ -693,7 +693,7 @@ firms:
     tier: Corporate - Aerospace
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: rollsroyce.wd3.myworkdayjobs.com
     tenant: rollsroyce
     site: Intern_Graduate
@@ -703,7 +703,7 @@ firms:
     tier: Corporate - FMCG
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: unilever.wd3.myworkdayjobs.com
     tenant: unilever
     site: unilever_early_careers
@@ -714,7 +714,7 @@ firms:
     tier: Corporate - Energy
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: centrica.wd3.myworkdayjobs.com
     tenant: centrica
     site: Centrica
@@ -724,7 +724,7 @@ firms:
     tier: Corporate - Tech
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: salesforce.wd12.myworkdayjobs.com
     tenant: salesforce
     site: External_Career_Site
@@ -740,7 +740,7 @@ firms:
     tier: Corporate - Aerospace
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: boeing.wd1.myworkdayjobs.com
     tenant: boeing
     site: External_Careers
@@ -753,7 +753,7 @@ firms:
     tier: Corporate - Tech
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: cisco.wd5.myworkdayjobs.com
     tenant: cisco
     site: Cisco_Careers
@@ -765,7 +765,7 @@ firms:
     tier: Corporate - Healthcare
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: convatec.wd1.myworkdayjobs.com
     tenant: convatec
     site: Convatec
@@ -774,7 +774,7 @@ firms:
     tier: Corporate - Industrials
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: dyson.wd3.myworkdayjobs.com
     tenant: dyson
     site: Dyson_Careers
@@ -786,7 +786,7 @@ firms:
     tier: Corporate - Pharma
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: gsk.wd5.myworkdayjobs.com
     tenant: gsk
     site: GskCareers
@@ -799,7 +799,7 @@ firms:
     tier: Corporate - Industrials
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: hitachi.wd1.myworkdayjobs.com
     tenant: hitachi
     site: Hitachi
@@ -812,7 +812,7 @@ firms:
     tier: Corporate - Tech
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: intel.wd1.myworkdayjobs.com
     tenant: intel
     site: External
@@ -823,7 +823,7 @@ firms:
     tier: Corporate - Logistics
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: maersk.wd3.myworkdayjobs.com
     tenant: maersk
     site: Maersk_Careers
@@ -834,7 +834,7 @@ firms:
     tier: Corporate - FMCG
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: mars.wd3.myworkdayjobs.com
     tenant: mars
     site: External
@@ -846,7 +846,7 @@ firms:
     tier: Corporate - Pharma
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: novartis.wd3.myworkdayjobs.com
     tenant: novartis
     site: Novartis_Careers
@@ -858,7 +858,7 @@ firms:
     tier: Corporate - Industrials
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: renishaw.wd3.myworkdayjobs.com
     tenant: renishaw
     site: Renishaw
@@ -867,7 +867,7 @@ firms:
     tier: Corporate - Mining
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: riotinto.wd3.myworkdayjobs.com
     tenant: riotinto
     site: Riotinto_Careers
@@ -876,7 +876,7 @@ firms:
     tier: Corporate - Pharma
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: sanofi.wd3.myworkdayjobs.com
     tenant: sanofi
     site: SanofiCareers
@@ -889,7 +889,7 @@ firms:
     tier: Corporate - Energy
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: shell.wd3.myworkdayjobs.com
     tenant: shell
     site: ShellCareers
@@ -898,7 +898,7 @@ firms:
     tier: Corporate - Media
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: sky.wd3.myworkdayjobs.com
     tenant: sky
     site: Sky_Careers
@@ -907,7 +907,7 @@ firms:
     tier: Corporate - Healthcare
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: smithnephew.wd5.myworkdayjobs.com
     tenant: smithnephew
     site: External
@@ -916,10 +916,20 @@ firms:
     tier: Corporate - Defence
     platform: workday
     enabled: true
-    finance_only: true
+    business_only: true
     host: thales.wd3.myworkdayjobs.com
     tenant: thales
     site: Careers
     passes:
       - workerSubType: ["47200b8529d910215e133a260a722492", "47200b8529d910215e1341585a8c2495", "1cb112d52e9c1000b743bea75fd40000", "e4397306756401fb51ba61e65f3fb56f", "5af4f5cd8760013b5d0277b71a2b1b3a"]
       - locationCountry: ["d903bb3fedad45039383f6de334ad4db", "6cb77610a8a543aea2d6bc10457e35d4", "d4afdeb461d446e4babd204bd102dba8", "29247e57dbaf46fb855b224e03170bc7"]
+
+  - name: L'Oreal
+    tier: Corporate - Consumer
+    platform: radancy
+    enabled: true
+    business_only: true
+    host: careers.loreal.com
+    path_prefix: en
+    # Newer Radancy template than Citi's. Nine UK Industrial Placements for
+    # 2027 at time of adding: Finance, Commercial, Supply Chain, Marketing.
