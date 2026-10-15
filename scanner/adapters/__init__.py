@@ -7,6 +7,7 @@ Each adapter turns one platform's API into the same normalised posting dict, so
 from .avature import AvatureAdapter
 from .bain import BainAdapter
 from .bofa import BofaAdapter
+from .eightfold import EightfoldAdapter
 from .goldman import GoldmanAdapter
 from .gradconnection import GradConnectionAdapter
 from .greenhouse import GreenhouseAdapter
@@ -42,6 +43,7 @@ ADAPTERS = {
     "ashby": AshbyAdapter,
     "workable": WorkableAdapter,
     "gradconnection": GradConnectionAdapter,
+    "eightfold": EightfoldAdapter,
 }
 
 

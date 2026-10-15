@@ -933,3 +933,12 @@ firms:
     path_prefix: en
     # Newer Radancy template than Citi's. Nine UK Industrial Placements for
     # 2027 at time of adding: Finance, Commercial, Supply Chain, Marketing.
+
+  - name: Haleon
+    tier: Corporate - Consumer Health
+    platform: eightfold
+    enabled: true
+    business_only: true
+    host: careers.haleon.com
+    domain: haleon.com
+    # 2027 UK Industrial Placements incl. Commercial Business & Marketing.
