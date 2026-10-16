@@ -942,3 +942,189 @@ firms:
     host: careers.haleon.com
     domain: haleon.com
     # 2027 UK Industrial Placements incl. Commercial Business & Marketing.
+
+  # ------------- Corporates, round 3: broad sweep (2026-10-15)
+  # Found by tools/discover_workday.py over ~450 large employers, then
+  # verified: only boards that actually carry business-function
+  # early-careers roles are enabled.
+
+  - name: Abbott
+    tier: Corporate - Healthcare
+    platform: workday
+    enabled: true
+    business_only: true
+    host: abbott.wd5.myworkdayjobs.com
+    tenant: abbott
+    site: AbbottCareers
+    passes:
+      - workerSubType: ["d0663057a84410077d944a83d8896dd3"]
+      - Location_Country: ["6cb77610a8a543aea2d6bc10457e35d4", "29247e57dbaf46fb855b224e03170bc7", "d903bb3fedad45039383f6de334ad4db", "d4afdeb461d446e4babd204bd102dba8"]
+
+  - name: CSL
+    tier: Corporate - Pharma
+    platform: workday
+    enabled: true
+    business_only: true
+    host: csl.wd1.myworkdayjobs.com
+    tenant: csl
+    site: Csl_External
+
+  - name: Chevron
+    tier: Corporate - Energy
+    platform: workday
+    enabled: true
+    business_only: true
+    host: chevron.wd5.myworkdayjobs.com
+    tenant: chevron
+    site: University
+
+  - name: ConocoPhillips
+    tier: Corporate - Energy
+    platform: workday
+    enabled: true
+    business_only: true
+    host: conocophillips.wd1.myworkdayjobs.com
+    tenant: conocophillips
+    site: External
+
+  - name: Dow
+    tier: Corporate - Chemicals
+    platform: workday
+    enabled: true
+    business_only: true
+    host: dow.wd1.myworkdayjobs.com
+    tenant: dow
+    site: ExternalCareers
+
+  - name: Electrolux
+    tier: Corporate - Industrials
+    platform: workday
+    enabled: true
+    business_only: true
+    host: electrolux.wd3.myworkdayjobs.com
+    tenant: electrolux
+    site: ElectroluxCareerSite
+
+  - name: Gilead
+    tier: Corporate - Pharma
+    platform: workday
+    enabled: true
+    business_only: true
+    host: gilead.wd1.myworkdayjobs.com
+    tenant: gilead
+    site: GileadCareers
+    passes:
+      - workerSubType: ["dda565f4c0a3100e1daf0ab6c9ca2b0e"]
+      - locations: ["173342972c1201acc375fc70b0747f37", "173342972c12010309520871b0748937", "173342972c120109278d0d71b0748e37", "173342972c1201017765b177b074613c", "173342972c1201b7c65bd177b0747f3c", "173342972c1201bab461e177b0748e3c", "173342972c12018c5512e677b074933c"]
+
+  - name: Iberdrola
+    tier: Corporate - Energy
+    platform: workday
+    enabled: true
+    business_only: true
+    host: iberdrola.wd3.myworkdayjobs.com
+    tenant: iberdrola
+    site: Iberdrola
+
+  - name: JLL
+    tier: Corporate - Property
+    platform: workday
+    enabled: true
+    business_only: true
+    host: jll.wd1.myworkdayjobs.com
+    tenant: jll
+    site: JllCareers
+    passes:
+      - workerSubType: ["83c7fa911b4101a0f63c22b2db507809"]
+      - locationCountry: ["d903bb3fedad45039383f6de334ad4db", "d4afdeb461d446e4babd204bd102dba8", "e57942a30d504032a60614936c726d5e", "a4e08b475d6a4176853c9d1cb9854e02", "29247e57dbaf46fb855b224e03170bc7"]
+    # 27 business-function early-careers roles across the global board.
+
+  - name: Medtronic
+    tier: Corporate - Healthcare
+    platform: workday
+    enabled: true
+    business_only: true
+    host: medtronic.wd1.myworkdayjobs.com
+    tenant: medtronic
+    site: MedtronicCareers
+    passes:
+      - workerSubType: ["6726e368deda465eb362a1203261d1e5"]
+      - locationCountry: ["d903bb3fedad45039383f6de334ad4db", "6cb77610a8a543aea2d6bc10457e35d4", "d4afdeb461d446e4babd204bd102dba8", "29247e57dbaf46fb855b224e03170bc7"]
+
+  - name: Prudential
+    tier: Corporate - Insurance
+    platform: workday
+    enabled: true
+    business_only: true
+    host: prudential.wd3.myworkdayjobs.com
+    tenant: prudential
+    site: Prudential
+    passes:
+      - locations: ["098bb260f6c0011205442aabc704ebf6", "2d5a5083a30501831a1930b14e2c2398"]
+    # Hong Kong Actuarial Intern at time of adding.
+
+  - name: Stryker
+    tier: Corporate - Healthcare
+    platform: workday
+    enabled: true
+    business_only: true
+    host: stryker.wd1.myworkdayjobs.com
+    tenant: stryker
+    site: StrykerCareers
+    passes:
+      - workerSubType: ["3156b848d19b01ca7b60bf0b1d12c30a"]
+      - Location_Country: ["d903bb3fedad45039383f6de334ad4db", "29247e57dbaf46fb855b224e03170bc7", "6cb77610a8a543aea2d6bc10457e35d4", "d4afdeb461d446e4babd204bd102dba8"]
+    # 69 business-function early-careers roles; UK cycle opens later.
+
+  - name: Thermo Fisher
+    tier: Corporate - Healthcare
+    platform: workday
+    enabled: true
+    business_only: true
+    host: thermofisher.wd5.myworkdayjobs.com
+    tenant: thermofisher
+    site: ThermofisherCareers
+    passes:
+      - workerSubType: ["c9cbaae6aa4b4db2ad7a94de5eb9ad7b"]
+      - locations: ["34f9267ed65810019d41fcb0cffa0000", "b2591be32ceb10019d408bedcdee0000", "c140a6578f1a10019d28fe64cb1c0000", "8e512918bbd110019d555c4ee25a0000", "b2bb23b3e37610019d5639866af10000", "34f9267ed65810019d4188baf2a00000", "fc837035319310019d543f352fda0000", "020f62953d2f1001feed472f672f0000", "8991183e0f2310019d40a40277b30000", "b2591be32ceb10019d4e025a44a50000", "6609626fa31510019d52519324fc0000", "8e512918bbd110019d55490ac7740000", "c63cac162b8d10019d42decd4a7d0000", "6609626fa31510019d60e9a041270000", "b2591be32ceb10019d4240f497ec0000", "c140a6578f1a10019d33a06199740000", "c63cac162b8d10019d3fad1959930000", "6609626fa31510019d49e424d6170000", "940d4590dd1410016906a03cdc1a0000", "c140a6578f1a10019d287d35de480000", "fc837035319310019d5421a1d65f0000", "b2591be32ceb10019d41fe6dd6b40000", "8991183e0f2310019d54ddf07d850000", "ed4d76dbefe910019d5275b7ca9e0000", "b3910fd10ee510016907a50b51270000", "b3910fd10ee510016907ae1767b30000", "fc837035319310019d4249190aeb0000", "919724ee2753100169076222e8120000", "34f9267ed65810019d57e41c77220000", "558912d33b851001feebbc46016f0000", "b2591be32ceb10019d5e026602090000", "6609626fa31510019d6062df2ef70000", "fc837035319310019d55af9f7a020000", "c140a6578f1a10019d37e8a490310000", "ed4d76dbefe910019d436a7f75f60000", "8e512918bbd110019d41daf9fac40000", "ccbb057a50701001686056b29aba0000", "c9ab0dfe73591001feeeb49993560000", "5b920947afd81001feef988d60350000", "fc837035319310019d44a6f883ab0000", "6609626fa31510019d45ae06fe9f0000", "8991183e0f2310019d6154090dcf0000", "34f9267ed65810019d603fa1e4220000", "8e512918bbd110019d52e933ed470000", "ed4d76dbefe910019d3ec4af38160000", "bd4917ec89861001fe5b0b94bb650000"]
+
+  - name: TransUnion
+    tier: Corporate - Data
+    platform: workday
+    enabled: true
+    business_only: true
+    host: transunion.wd5.myworkdayjobs.com
+    tenant: transunion
+    site: Transunion
+
+  # Verified Workday tenants that currently carry no business-function
+  # early-careers roles at all. Left disabled so the daily scan stays lean;
+  # flip to true if their cycle opens.
+  - { name: AIG, tier: Corporate, platform: workday, enabled: false, host: aig.wd1.myworkdayjobs.com, tenant: aig, site: Aig }
+  - { name: Baxter, tier: Corporate, platform: workday, enabled: false, host: baxter.wd1.myworkdayjobs.com, tenant: baxter, site: Baxter }
+  - { name: Equifax, tier: Corporate, platform: workday, enabled: false, host: equifax.wd5.myworkdayjobs.com, tenant: equifax, site: External }
+  - { name: Just Eat, tier: Corporate, platform: workday, enabled: false, host: just.wd3.myworkdayjobs.com, tenant: just, site: Just_External }
+  - { name: Lendlease, tier: Corporate, platform: workday, enabled: false, host: lendlease.wd3.myworkdayjobs.com, tenant: lendlease, site: LendleaseCareers }
+  - { name: Lonza, tier: Corporate, platform: workday, enabled: false, host: lonza.wd3.myworkdayjobs.com, tenant: lonza, site: Lonza_Careers }
+  - { name: Ofcom, tier: Corporate, platform: workday, enabled: false, host: ofcom.wd3.myworkdayjobs.com, tenant: ofcom, site: Ofcom_Careers }
+  - { name: RELX, tier: Corporate, platform: workday, enabled: false, host: relx.wd3.myworkdayjobs.com, tenant: relx, site: Relx }
+  - { name: Richemont, tier: Corporate, platform: workday, enabled: false, host: richemont.wd3.myworkdayjobs.com, tenant: richemont, site: Richemont }
+  - { name: Stagecoach, tier: Corporate, platform: workday, enabled: false, host: stagecoach.wd3.myworkdayjobs.com, tenant: stagecoach, site: External }
+  - { name: Synthomer, tier: Corporate, platform: workday, enabled: false, host: synthomer.wd3.myworkdayjobs.com, tenant: synthomer, site: SynthomerCareers }
+  - { name: Taylor Wimpey, tier: Corporate, platform: workday, enabled: false, host: taylor.wd1.myworkdayjobs.com, tenant: taylor, site: External }
+  - { name: Workday, tier: Corporate, platform: workday, enabled: false, host: workday.wd5.myworkdayjobs.com, tenant: workday, site: Workday }
+
+  # Rejected during review:
+  #   DB Schenker -- slug 'db' is Deutsche Bank, already tracked
+  #   Rolls Royce Power Systems -- same rollsroyce tenant as Rolls-Royce
+  #   Rolls-Royce SMR -- same rollsroyce tenant as Rolls-Royce
+
+  # Lightweight-ATS boards from the same sweep.
+  - { name: ServiceNow, tier: 'Corporate - Tech', platform: smartrecruiters, enabled: true, business_only: true, board: servicenow }
+  - { name: Continental, tier: 'Corporate - Automotive', platform: smartrecruiters, enabled: true, business_only: true, board: continental }
+  - { name: Accor, tier: 'Corporate - Hospitality', platform: smartrecruiters, enabled: true, business_only: true, board: accor }
+  - { name: Turner & Townsend, tier: 'Corporate - Property', platform: smartrecruiters, enabled: true, business_only: true, board: turnertownsend }
+  - { name: Colliers, tier: 'Corporate - Property', platform: smartrecruiters, enabled: true, business_only: true, board: colliers }
+  - { name: Experian, tier: 'Corporate - Data', platform: smartrecruiters, enabled: true, business_only: true, board: experian }
+  - { name: WPP, tier: 'Corporate - Media', platform: greenhouse, enabled: true, business_only: true, board: wpp }
+  - { name: Deliveroo, tier: 'Corporate - Tech', platform: greenhouse, enabled: true, business_only: true, board: deliveroo }

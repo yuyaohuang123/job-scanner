@@ -328,6 +328,18 @@ NON_UK_MARKERS = [
     "thailand", "vietnam", "indonesia", "philippines", "australia",
     "new zealand", "south africa", "israel", "uae", "dubai", "qatar",
     "saudi", "egypt", "nigeria", "kenya", "argentina", "chile", "colombia",
+    # Full US state names: Amgen writes "US - Massachusetts - Cambridge",
+    # where the abbreviation guard below never fires but "Cambridge" matches.
+    "us -", "u.s -", "alabama", "alaska", "arizona", "arkansas", "california",
+    "colorado", "connecticut", "delaware", "florida", "georgia", "hawaii",
+    "idaho", "illinois", "indiana", "iowa", "kansas", "kentucky", "louisiana",
+    "maine", "maryland", "massachusetts", "michigan", "minnesota",
+    "mississippi", "missouri", "montana", "nebraska", "nevada",
+    "new hampshire", "new jersey", "new mexico", "north carolina",
+    "north dakota", "ohio", "oklahoma", "oregon", "pennsylvania",
+    "rhode island", "south carolina", "south dakota", "tennessee", "texas",
+    "utah", "vermont", "virginia", "washington", "west virginia",
+    "wisconsin", "wyoming",
     # US state abbreviations, as they appear in "Atlanta Area, GA"
     ", al", ", ak", ", az", ", ar", ", ca", ", co", ", ct", ", de", ", fl",
     ", ga", ", hi", ", id", ", il", ", in", ", ia", ", ks", ", ky", ", la",

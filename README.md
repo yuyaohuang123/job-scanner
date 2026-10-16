@@ -23,13 +23,13 @@ three lines of config, not a new scraper.
 
 ## Status
 
-**154 firms verified and enabled** across fourteen platforms, returning ~460
+**178 firms verified and enabled** across fourteen platforms, returning ~460
 internship and placement listings across the UK, China mainland and Hong Kong.
 
 Australia was dropped from scope in October 2026; the GradConnection adapter
 remains in the tree, disabled, if it is ever wanted back.
 
-**Corporates.** Thirty large non-financial employers -- Airbus, Boeing, Pfizer,
+**Corporates.** Fifty-four large non-financial employers -- Airbus, Boeing, Pfizer,
 GSK, Sanofi, Novartis, Unilever, Mars, Diageo, P&G, Rolls-Royce, MBDA, Thales,
 Shell, Centrica, Rio Tinto, Maersk, Hitachi, Intel, Cisco, Salesforce, Sky,
 Dyson, Renishaw and others -- are tracked with `finance_only: true`, which keeps only the finance function --
